@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Schedule</string>
-    <string name="monday">ПОНЕДЕЛЬНИК</string>
-    <string name="tuesday">ВТОРНИК</string>
-    <string name="wednesday">СРЕДА</string>
-    <string name="thursday">ЧЕТВЕРГ</string>
-    <string name="friday">ПЯТНИЦА</string>
-    <string name="saturday">СУББОТА</string>
-    <string name="s1">8.30–9.50</string>
-    <string name="s2">10.00–11.20</string>
-    <string name="s3">11.30–12.50</string>
-    <string name="s4">13.05–14.25</string>
-    <string name="s5">14.40–16.00</string>
-    <string name="s6">16.10–17.30</string>
-    <string name="s7">17.40–19.00</string>
-    <string name="about">Что это?</string>
-    <string name="group">Группа</string>
-    <string name="chooseGroup">Выбери группу</string>
-    <string name="ok">OK</string>
-    <string name="aboutText">Расписание для ВМК\n\nВопросы и предложения сюда:\nstiggpwnz@gmail.com</string>
+    <string name="menu_settings">Settings</string>
+
+    <string-array name="days">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+    <string-array name="times">
+        <item>8.30–9.50</item>
+        <item>10.00–11.20</item>
+        <item>11.30–12.50</item>
+        <item>13.05–14.25</item>
+        <item>14.40–16.00</item>
+        <item>16.10–17.30</item>
+        <item>17.40–19.00</item>
+    </string-array>
 
 </resources>
