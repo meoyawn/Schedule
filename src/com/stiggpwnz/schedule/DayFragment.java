@@ -7,8 +7,10 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class DayFragment extends SherlockListFragment {
 
-	public static final String LESSON = "lesson";
+	public static final String TODAY = "today";
 	public static final String LESSONS = "lessons";
+
+	private LessonsAdapter adapter;
 
 	public DayFragment() {
 
@@ -19,9 +21,22 @@ public class DayFragment extends SherlockListFragment {
 		super.onViewCreated(view, savedInstanceState);
 		Bundle arguments = getArguments();
 		String[] lessons = arguments.getStringArray(LESSONS);
-		int lesson = arguments.getInt(LESSON, -1);
-		LessonsAdapter adapter = new LessonsAdapter(getSherlockActivity(), lessons, lesson);
+		boolean today = arguments.getBoolean(TODAY, false);
+		adapter = new LessonsAdapter(getSherlockActivity(), lessons, today);
 		setListAdapter(adapter);
+	}
+
+	public void setLessons(String[] lessons) {
+		adapter.setLessons(lessons);
+	}
+
+	public void updateLesson() {
+		adapter.updateLesson();
+	}
+
+	public void setToday(boolean today) {
+		adapter.setToday(today);
+		getArguments().putBoolean(TODAY, today);
 	}
 
 }

@@ -1,6 +1,9 @@
 package com.stiggpwnz.schedule;
 
+import java.util.Calendar;
+
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +20,33 @@ public class LessonsAdapter extends BaseAdapter {
 	private String[] lessons;
 
 	private int blue;
-	private int lesson;
+	private Drawable white;
 
-	public LessonsAdapter(Context context, String[] lessons, int lesson) {
+	private int lesson;
+	private boolean today;
+
+	public LessonsAdapter(Context context, String[] lessons, boolean today) {
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.times = context.getResources().getStringArray(R.array.times);
-		this.blue = context.getResources().getColor(R.color.abs__holo_blue_light);
+		this.blue = context.getResources().getColor(R.color.blue);
 		this.lessons = lessons;
-		this.lesson = lesson;
+		this.today = today;
+		if (today)
+			updateLesson();
+		else
+			lesson = -1;
+	}
+
+	public void setLessons(String[] lessons) {
+		this.lessons = lessons;
+		notifyDataSetChanged();
+	}
+
+	public void setToday(boolean today) {
+		if (this.today != today) {
+			this.today = today;
+			updateLesson();
+		}
 	}
 
 	@Override
@@ -47,6 +69,7 @@ public class LessonsAdapter extends BaseAdapter {
 		TextView lesson;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewholder;
@@ -55,6 +78,8 @@ public class LessonsAdapter extends BaseAdapter {
 			viewholder = new ViewHolder();
 			viewholder.time = (TextView) convertView.findViewById(R.id.textView1);
 			viewholder.lesson = (TextView) convertView.findViewById(R.id.textView2);
+			if (white == null)
+				white = convertView.getBackground();
 			convertView.setTag(viewholder);
 		} else {
 			viewholder = (ViewHolder) convertView.getTag();
@@ -62,10 +87,92 @@ public class LessonsAdapter extends BaseAdapter {
 
 		viewholder.time.setText(times[position]);
 		viewholder.lesson.setText(lessons[position]);
-		if (position == lesson)
+
+		if (today && position == lesson)
 			convertView.setBackgroundColor(blue);
+		else
+			convertView.setBackgroundDrawable(white);
 
 		return convertView;
 	}
 
+	public void updateLesson() {
+		lesson = -1;
+		Calendar calendar = Calendar.getInstance();
+		if (today && calendar.get(Calendar.DAY_OF_WEEK) + 5 != DaysAdapter.DAYS_NUMBER) {
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+			int minute = calendar.get(Calendar.MINUTE);
+
+			// 8.30–9.50
+			// 10.00–11.20
+			// 11.30–12.50
+			// 13.05–14.25
+			// 14.40–16.00
+			// 16.10–17.30
+			// 17.40–19.00
+
+			switch (hour) {
+			case 8:
+				if (minute >= 30)
+					lesson = 0;
+				break;
+
+			case 9:
+				if (minute < 50)
+					lesson = 0;
+				else
+					lesson = 1;
+				break;
+
+			case 10:
+				lesson = 1;
+				break;
+
+			case 11:
+				if (minute < 20)
+					lesson = 1;
+				else
+					lesson = 2;
+				break;
+
+			case 12:
+				if (minute < 50)
+					lesson = 2;
+				else
+					lesson = 3;
+				break;
+
+			case 13:
+				lesson = 3;
+				break;
+
+			case 14:
+				if (minute < 25)
+					lesson = 3;
+				else
+					lesson = 4;
+				break;
+
+			case 15:
+				lesson = 4;
+				break;
+
+			case 16:
+				lesson = 5;
+				break;
+
+			case 17:
+				if (minute < 30)
+					lesson = 5;
+				else
+					lesson = 6;
+				break;
+
+			case 18:
+				lesson = 6;
+				break;
+			}
+		}
+		notifyDataSetChanged();
+	}
 }

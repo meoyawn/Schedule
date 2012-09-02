@@ -1,5 +1,7 @@
 package com.stiggpwnz.schedule;
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +29,29 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
 
+	private void updateDay() {
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_WEEK) + 5;
+		int week = calendar.get(Calendar.WEEK_OF_YEAR);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (day == 5 && hour >= 19) {
+			day += 2;
+			week++;
+		} else if (day == 6) {
+			day++;
+			week++;
+		} else if (hour >= 19)
+			day++;
+		week = week % 2;
+		day = day % 7;
+
+		if (app.getDay() != day) {
+			app.setDay(day);
+			app.setWeek(week);
+			adapter.setDay(day);
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -34,18 +59,18 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 		if (adapter != null) {
 			setTitle(app.getGroupName());
 
-			adapter.updateTime();
+			updateDay();
+			adapter.updateLesson();
 			if (app.isRowUpdated())
-				adapter.setRow(app.getRow());
-			adapter.notifyDataSetChanged();
+				adapter.setLessons(app.getLessons());
 
-			actionBar.setSelectedNavigationItem(adapter.getDay());
-			pager.setCurrentItem(adapter.getDay());
+			actionBar.setSelectedNavigationItem(app.getDay());
+			pager.setCurrentItem(app.getDay());
 		} else if (app.getRow() != null) {
 			setTitle(app.getGroupName());
 
-			adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getRow());
-			adapter.updateTime();
+			adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getDay(), app.getLessons());
+			updateDay();
 
 			pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
@@ -59,8 +84,8 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 				actionBar.addTab(tab);
 			}
 
-			actionBar.setSelectedNavigationItem(adapter.getDay());
-			pager.setCurrentItem(adapter.getDay());
+			actionBar.setSelectedNavigationItem(app.getDay());
+			pager.setCurrentItem(app.getDay());
 		} else {
 			startActivity(new Intent(this, PreferenceActivity.class));
 		}
