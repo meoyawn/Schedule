@@ -20,5 +20,18 @@
         <item>16.10–17.30</item>
         <item>17.40–19.00</item>
     </string-array>
+    <string-array name="faculties">
+        <item>VMK</item>
+    </string-array>
+    <string-array name="filenames">
+        <item>vmk.xls</item>
+    </string-array>
+    <string-array name="groups_prefix">
+        <item>9</item>
+    </string-array>
+
+    <string name="faculty">Faculty</string>
+    <string name="preferences">Preferences</string>
+    <string name="group">Group</string>
 
 </resources>

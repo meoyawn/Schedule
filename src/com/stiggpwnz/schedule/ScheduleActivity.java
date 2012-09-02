@@ -1,12 +1,6 @@
 package com.stiggpwnz.schedule;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -17,40 +11,41 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, OnPageChangeListener {
 
-	private DaysAdapter adapter;
+	private ScheduleApplication app;
 	private ViewPager pager;
+	private DaysAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		app = (ScheduleApplication) getApplication();
 		setContentView(R.layout.activity_main);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	}
 
-		Calendar calendar = Calendar.getInstance();
-		int week = calendar.get(Calendar.WEEK_OF_YEAR);
-		int day = calendar.get(Calendar.DAY_OF_WEEK) + 5;
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		int minute = calendar.get(Calendar.MINUTE);
-		int lesson = lesson(day, hour, minute);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (adapter != null) {
+			getSupportActionBar().setTitle(app.getGroupName());
+			
+			adapter.updateTime();
+			if (app.isRowUpdated())
+				adapter.setRow(app.getRow());
+			adapter.notifyDataSetChanged();
+			
+			getSupportActionBar().setSelectedNavigationItem(adapter.getDay());
+			pager.setCurrentItem(adapter.getDay());
+		} else if (app.getRow() != null) {
+			getSupportActionBar().setTitle(app.getGroupName());
 
-		if (day == 5 && hour >= 19) {
-			day += 2;
-			week++;
-		} else if (day == 6) {
-			day++;
-			week++;
-		} else if (hour >= 19)
-			day++;
+			adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getRow());
+			adapter.updateTime();
 
-		week = week % 2;
-		day = day % 7;
-
-		try {
-			Sheet sheet = open("sched12131.xls");
-			adapter = new DaysAdapter(this, getSupportFragmentManager(), sheet.getRow(2), week, day, lesson);
 			pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
 			pager.setOnPageChangeListener(this);
@@ -62,19 +57,27 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 				tab.setTabListener(this);
 				getSupportActionBar().addTab(tab);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} else {
+			startActivity(new Intent(this, PreferenceActivity.class));
 		}
-
-		getSupportActionBar().setSelectedNavigationItem(day);
-		pager.setCurrentItem(day);
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, PreferenceActivity.class));
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -85,82 +88,6 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 	@Override
 	public void onPageSelected(int position) {
 		getSupportActionBar().setSelectedNavigationItem(position);
-	}
-
-	private Sheet open(String filename) throws IOException {
-		InputStream is = getResources().getAssets().open(filename);
-		HSSFWorkbook wb = new HSSFWorkbook(is);
-		is.close();
-		return wb.getSheetAt(0);
-	}
-
-	private int lesson(int day, int hour, int minute) {
-		int lesson = -1;
-		if (day == DaysAdapter.DAYS_NUMBER)
-			return lesson;
-
-		switch (hour) {
-		case 8:
-			if (minute >= 30)
-				lesson = 0;
-			break;
-
-		case 9:
-			if (minute < 50)
-				lesson = 0;
-			else
-				lesson = 1;
-			break;
-
-		case 10:
-			lesson = 1;
-			break;
-
-		case 11:
-			if (minute < 20)
-				lesson = 1;
-			else
-				lesson = 2;
-			break;
-
-		case 12:
-			if (minute < 50)
-				lesson = 2;
-			else
-				lesson = 3;
-			break;
-
-		case 13:
-			lesson = 3;
-			break;
-
-		case 14:
-			if (minute < 25)
-				lesson = 3;
-			else
-				lesson = 4;
-			break;
-
-		case 15:
-			lesson = 4;
-			break;
-
-		case 16:
-			lesson = 5;
-			break;
-
-		case 17:
-			if (minute < 30)
-				lesson = 5;
-			else
-				lesson = 6;
-			break;
-
-		case 18:
-			lesson = 6;
-			break;
-		}
-		return lesson;
 	}
 
 	@Override
