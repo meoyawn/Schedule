@@ -20,6 +20,8 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 	public static final String FACULTY = "faculty";
 	public static final String GROUP = "group";
 
+	private static final int GROUP_NAME_CELL = 1;
+
 	private ScheduleApplication app;
 	private SharedPreferences prefs;
 	private ListPreference groups;
@@ -126,7 +128,7 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 				LinkedList<String> names = new LinkedList<String>();
 				LinkedList<String> numbers = new LinkedList<String>();
 				for (int i = sheet.getFirstRowNum(); i <= lastRowNum; i++) {
-					Cell cell = sheet.getRow(i).getCell(2);
+					Cell cell = sheet.getRow(i).getCell(GROUP_NAME_CELL);
 
 					String stringCellValue;
 					switch (cell.getCellType()) {

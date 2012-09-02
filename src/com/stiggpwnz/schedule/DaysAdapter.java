@@ -14,12 +14,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class DaysAdapter extends FragmentStatePagerAdapter {
 
 	public static final int DAYS_NUMBER = 6;
-
 	private static final String ODD_WEEK = "í/í";
 	private static final String EVEN_WEEK = "÷/í";
 
 	private static final int ODD = 1;
 	private static final int EVEN = 0;
+
+	private static final int FIRST_LESSON_CELL = 2;
 
 	private Context context;
 	private Row row;
@@ -81,7 +82,7 @@ public class DaysAdapter extends FragmentStatePagerAdapter {
 	private String[] getLessions(int day) {
 		String[] lessons = new String[LessonsAdapter.LESSONS_NUMBER];
 		for (int lesson = 0; lesson < LessonsAdapter.LESSONS_NUMBER; lesson++) {
-			int cellNum = 3 + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
+			int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
 			Cell cell = row.getCell(cellNum);
 			String cellValue = cell.getStringCellValue();
 			String shownValue = cellValue;

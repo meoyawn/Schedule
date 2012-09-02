@@ -1,15 +1,15 @@
 <resources>
 
     <string name="app_name">Schedule</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings">Настройки</string>
 
     <string-array name="days">
-        <item>Mon</item>
-        <item>Tue</item>
-        <item>Wed</item>
-        <item>Thu</item>
-        <item>Fri</item>
-        <item>Sat</item>
+        <item>ПН</item>
+        <item>ВТ</item>
+        <item>СР</item>
+        <item>ЧТ</item>
+        <item>ПТ</item>
+        <item>СБ</item>
     </string-array>
     <string-array name="times">
         <item>8.30–9.50</item>
@@ -21,7 +21,7 @@
         <item>17.40–19.00</item>
     </string-array>
     <string-array name="faculties">
-        <item>VMK</item>
+        <item>ВМК</item>
     </string-array>
     <string-array name="filenames">
         <item>vmk.xls</item>
@@ -30,7 +30,7 @@
         <item>9</item>
     </string-array>
 
-    <string name="faculty">Faculty</string>
-    <string name="group">Group</string>
+    <string name="faculty">Факультет</string>
+    <string name="group">Группа</string>
 
 </resources>

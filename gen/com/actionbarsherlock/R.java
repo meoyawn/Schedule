@@ -905,9 +905,8 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f0a0009;
         public static final int app_name=0x7f0a000a;
         public static final int faculty=0x7f0a000c;
-        public static final int group=0x7f0a000e;
+        public static final int group=0x7f0a000d;
         public static final int menu_settings=0x7f0a000b;
-        public static final int preferences=0x7f0a000d;
     }
     public static final class style {
         public static final int DialogWindowTitle_Sherlock=0x7f0b0033;

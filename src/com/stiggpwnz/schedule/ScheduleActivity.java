@@ -30,18 +30,19 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 	@Override
 	protected void onResume() {
 		super.onResume();
+		ActionBar actionBar = getSupportActionBar();
 		if (adapter != null) {
-			getSupportActionBar().setTitle(app.getGroupName());
-			
+			setTitle(app.getGroupName());
+
 			adapter.updateTime();
 			if (app.isRowUpdated())
 				adapter.setRow(app.getRow());
 			adapter.notifyDataSetChanged();
-			
-			getSupportActionBar().setSelectedNavigationItem(adapter.getDay());
+
+			actionBar.setSelectedNavigationItem(adapter.getDay());
 			pager.setCurrentItem(adapter.getDay());
 		} else if (app.getRow() != null) {
-			getSupportActionBar().setTitle(app.getGroupName());
+			setTitle(app.getGroupName());
 
 			adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getRow());
 			adapter.updateTime();
@@ -52,11 +53,14 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 
 			for (int i = 0; i < adapter.getCount(); i++) {
 				CharSequence pageTitle = adapter.getPageTitle(i);
-				Tab tab = getSupportActionBar().newTab();
+				Tab tab = actionBar.newTab();
 				tab.setText(pageTitle);
 				tab.setTabListener(this);
-				getSupportActionBar().addTab(tab);
+				actionBar.addTab(tab);
 			}
+
+			actionBar.setSelectedNavigationItem(adapter.getDay());
+			pager.setCurrentItem(adapter.getDay());
 		} else {
 			startActivity(new Intent(this, PreferenceActivity.class));
 		}
