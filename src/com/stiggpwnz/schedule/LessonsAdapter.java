@@ -103,20 +103,13 @@ public class LessonsAdapter extends BaseAdapter {
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 
-			// 8.30–9.50
-			// 10.00–11.20
-			// 11.30–12.50
-			// 13.05–14.25
-			// 14.40–16.00
-			// 16.10–17.30
-			// 17.40–19.00
-
 			switch (hour) {
 			case 8:
 				if (minute >= 30)
 					lesson = 0;
 				break;
 
+			// 8.30–9.50
 			case 9:
 				if (minute < 50)
 					lesson = 0;
@@ -128,6 +121,7 @@ public class LessonsAdapter extends BaseAdapter {
 				lesson = 1;
 				break;
 
+			// 10.00–11.20
 			case 11:
 				if (minute < 20)
 					lesson = 1;
@@ -135,6 +129,7 @@ public class LessonsAdapter extends BaseAdapter {
 					lesson = 2;
 				break;
 
+			// 11.30–12.50
 			case 12:
 				if (minute < 50)
 					lesson = 2;
@@ -146,6 +141,7 @@ public class LessonsAdapter extends BaseAdapter {
 				lesson = 3;
 				break;
 
+			// 13.05–14.25
 			case 14:
 				if (minute < 25)
 					lesson = 3;
@@ -153,6 +149,7 @@ public class LessonsAdapter extends BaseAdapter {
 					lesson = 4;
 				break;
 
+			// 14.40–16.00
 			case 15:
 				lesson = 4;
 				break;
@@ -161,6 +158,7 @@ public class LessonsAdapter extends BaseAdapter {
 				lesson = 5;
 				break;
 
+			// 16.10–17.30
 			case 17:
 				if (minute < 30)
 					lesson = 5;
@@ -168,6 +166,7 @@ public class LessonsAdapter extends BaseAdapter {
 					lesson = 6;
 				break;
 
+			// 17.40–19.00
 			case 18:
 				lesson = 6;
 				break;

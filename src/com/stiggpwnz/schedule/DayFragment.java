@@ -19,15 +19,15 @@ public class DayFragment extends SherlockListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		Bundle arguments = getArguments();
-		String[] lessons = arguments.getStringArray(LESSONS);
-		boolean today = arguments.getBoolean(TODAY, false);
+		String[] lessons = getArguments().getStringArray(LESSONS);
+		boolean today = getArguments().getBoolean(TODAY, false);
 		adapter = new LessonsAdapter(getSherlockActivity(), lessons, today);
 		setListAdapter(adapter);
 	}
 
 	public void setLessons(String[] lessons) {
 		adapter.setLessons(lessons);
+		getArguments().putStringArray(LESSONS, lessons);
 	}
 
 	public void updateLesson() {
