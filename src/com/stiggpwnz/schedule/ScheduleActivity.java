@@ -15,7 +15,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, OnPageChangeListener {
+public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, OnPageChangeListener, EditLessonFragment.Listener, DayFragment.Listener {
 
 	private ScheduleApplication app;
 	private ViewPager pager;
@@ -58,10 +58,10 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 		if (adapter != null) {
 			setTitle(app.getGroupName());
 
-			updateDay();
-			adapter.updateLesson();
 			if (app.isRowUpdated())
 				adapter.setLessons(app.getLessons());
+			updateDay();
+			adapter.updateLesson();
 
 			getSupportActionBar().setSelectedNavigationItem(app.getDay());
 			pager.setCurrentItem(app.getDay());
@@ -138,4 +138,15 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 
 	}
 
+	@Override
+	public void saveLesson(int day, int lesson, String output) {
+		String parseOddEven = app.parseOddEven(output);
+		app.saveValue(day, lesson, output);
+		adapter.setLesson(day, lesson, parseOddEven);
+	}
+
+	@Override
+	public String getActualStringData(int day, int lesson) {
+		return app.getActualStringData(day, lesson);
+	}
 }

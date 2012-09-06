@@ -2,10 +2,9 @@ package com.stiggpwnz.schedule;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
+import android.view.ViewGroup;
 
 public class DaysAdapter extends FragmentPagerAdapter {
 
@@ -25,6 +24,10 @@ public class DaysAdapter extends FragmentPagerAdapter {
 		this.fragments = new DayFragment[DAYS_NUMBER];
 	}
 
+	public void setLesson(int day, int lesson, String input) {
+		fragments[day].setLesson(lesson, input);
+	}
+
 	public void updateLesson() {
 		if (fragments[day] != null)
 			fragments[day].updateLesson();
@@ -40,18 +43,23 @@ public class DaysAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public Fragment getItem(int day) {
-		Log.d("tag", "getting item: " + day);
-
+	public DayFragment getItem(int day) {
 		Bundle args = new Bundle();
 		args.putStringArray(DayFragment.LESSONS, lessons[day]);
+		args.putInt(DayFragment.DAY, day);
 		if (this.day == day)
 			args.putBoolean(DayFragment.TODAY, true);
 
 		DayFragment fragment = new DayFragment();
 		fragment.setArguments(args);
-		fragments[day] = fragment;
 		return fragment;
+	}
+
+	@Override
+	public Object instantiateItem(ViewGroup container, int position) {
+		Object instantiateItem = super.instantiateItem(container, position);
+		fragments[position] = (DayFragment) instantiateItem;
+		return instantiateItem;
 	}
 
 	public void setLessons(String[][] lessons) {

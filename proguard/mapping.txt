@@ -1898,6 +1898,7 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__titleDivider -> abs__titleDivider
     int abs__up -> abs__up
     int disableHome -> disableHome
+    int edit -> edit
     int homeAsUp -> homeAsUp
     int listMode -> listMode
     int menu_settings -> menu_settings
@@ -1935,6 +1936,7 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int abs__screen_simple -> abs__screen_simple
     int abs__screen_simple_overlay_action_mode -> abs__screen_simple_overlay_action_mode
     int activity_main -> activity_main
+    int edit -> edit
     int lesson -> lesson
     int sherlock_spinner_dropdown_item -> sherlock_spinner_dropdown_item
     int sherlock_spinner_item -> sherlock_spinner_item
@@ -1952,9 +1954,13 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
     int abs__shareactionprovider_share_with_application -> abs__shareactionprovider_share_with_application
     int app_name -> app_name
+    int discard -> discard
+    int edit -> edit
+    int empty -> empty
     int faculty -> faculty
     int group -> group
     int menu_settings -> menu_settings
+    int save -> save
 com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
     int DialogWindowTitle_Sherlock_Light -> DialogWindowTitle_Sherlock_Light
@@ -5416,22 +5422,52 @@ com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickLis
     boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
 com.stiggpwnz.schedule.DayFragment -> com.stiggpwnz.schedule.a:
     com.stiggpwnz.schedule.LessonsAdapter adapter -> a
+    com.stiggpwnz.schedule.DayFragment$Listener listener -> b
+    int day -> c
+    void onAttach(android.app.Activity) -> onAttach
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
+    void onDetach() -> onDetach
     void setLessons(java.lang.String[]) -> a
     void updateLesson() -> a
     void setToday(boolean) -> a
-com.stiggpwnz.schedule.DaysAdapter -> com.stiggpwnz.schedule.b:
+    void setLesson(int,java.lang.String) -> a
+com.stiggpwnz.schedule.DayFragment$Listener -> com.stiggpwnz.schedule.b:
+    java.lang.String getActualStringData(int,int) -> a
+com.stiggpwnz.schedule.DaysAdapter -> com.stiggpwnz.schedule.c:
     android.content.Context context -> a
     java.lang.String[][] lessons -> b
     com.stiggpwnz.schedule.DayFragment[] fragments -> c
     int day -> d
+    void setLesson(int,int,java.lang.String) -> a
     void updateLesson() -> a
     void setDay(int) -> a
-    android.support.v4.app.Fragment getItem(int) -> getItem
+    com.stiggpwnz.schedule.DayFragment getItem(int) -> b
+    java.lang.Object instantiateItem(android.view.ViewGroup,int) -> instantiateItem
     void setLessons(java.lang.String[][]) -> a
     int getCount() -> getCount
     java.lang.CharSequence getPageTitle(int) -> getPageTitle
-com.stiggpwnz.schedule.LessonsAdapter -> com.stiggpwnz.schedule.c:
+    android.support.v4.app.Fragment getItem(int) -> getItem
+com.stiggpwnz.schedule.EditLessonFragment -> com.stiggpwnz.schedule.d:
+    android.widget.EditText edit -> a
+    com.stiggpwnz.schedule.EditLessonFragment$Listener listener -> b
+    com.stiggpwnz.schedule.EditLessonFragment newInstance(int,int,java.lang.String) -> a
+    void onAttach(android.app.Activity) -> onAttach
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
+    void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onDetach() -> onDetach
+    android.widget.EditText access$0(com.stiggpwnz.schedule.EditLessonFragment) -> a
+    com.stiggpwnz.schedule.EditLessonFragment$Listener access$1(com.stiggpwnz.schedule.EditLessonFragment) -> b
+com.stiggpwnz.schedule.EditLessonFragment$1 -> com.stiggpwnz.schedule.e:
+    com.stiggpwnz.schedule.EditLessonFragment this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.stiggpwnz.schedule.EditLessonFragment$2 -> com.stiggpwnz.schedule.f:
+    com.stiggpwnz.schedule.EditLessonFragment this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.stiggpwnz.schedule.EditLessonFragment$Listener -> com.stiggpwnz.schedule.g:
+    void saveLesson(int,int,java.lang.String) -> a
+com.stiggpwnz.schedule.LessonsAdapter -> com.stiggpwnz.schedule.h:
     android.view.LayoutInflater inflater -> a
     java.lang.String[] times -> b
     java.lang.String[] lessons -> c
@@ -5440,6 +5476,7 @@ com.stiggpwnz.schedule.LessonsAdapter -> com.stiggpwnz.schedule.c:
     int lesson -> f
     boolean today -> g
     void setLessons(java.lang.String[]) -> a
+    void setLesson(int,java.lang.String) -> a
     void setToday(boolean) -> a
     int getCount() -> getCount
     java.lang.String getItem(int) -> a
@@ -5447,7 +5484,7 @@ com.stiggpwnz.schedule.LessonsAdapter -> com.stiggpwnz.schedule.c:
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void updateLesson() -> a
     java.lang.Object getItem(int) -> getItem
-com.stiggpwnz.schedule.LessonsAdapter$ViewHolder -> com.stiggpwnz.schedule.d:
+com.stiggpwnz.schedule.LessonsAdapter$ViewHolder -> com.stiggpwnz.schedule.i:
     android.widget.TextView time -> a
     android.widget.TextView lesson -> b
 com.stiggpwnz.schedule.PreferenceActivity -> com.stiggpwnz.schedule.PreferenceActivity:
@@ -5464,7 +5501,7 @@ com.stiggpwnz.schedule.PreferenceActivity -> com.stiggpwnz.schedule.PreferenceAc
     android.preference.ListPreference access$0(com.stiggpwnz.schedule.PreferenceActivity) -> a
     com.stiggpwnz.schedule.ScheduleApplication access$1(com.stiggpwnz.schedule.PreferenceActivity) -> b
     void access$2(android.preference.ListPreference) -> a
-com.stiggpwnz.schedule.PreferenceActivity$GroupsParser -> com.stiggpwnz.schedule.e:
+com.stiggpwnz.schedule.PreferenceActivity$GroupsParser -> com.stiggpwnz.schedule.j:
     com.stiggpwnz.schedule.PreferenceActivity this$0 -> a
     void onPreExecute() -> onPreExecute
     int getGroupIndex() -> a
@@ -5473,7 +5510,7 @@ com.stiggpwnz.schedule.PreferenceActivity$GroupsParser -> com.stiggpwnz.schedule
     void onPostExecute(com.stiggpwnz.schedule.PreferenceActivity$NamesAndNumbers) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.stiggpwnz.schedule.PreferenceActivity$NamesAndNumbers -> com.stiggpwnz.schedule.f:
+com.stiggpwnz.schedule.PreferenceActivity$NamesAndNumbers -> com.stiggpwnz.schedule.k:
     java.lang.String[] names -> a
     java.lang.String[] numbers -> b
 com.stiggpwnz.schedule.ScheduleActivity -> com.stiggpwnz.schedule.ScheduleActivity:
@@ -5491,19 +5528,26 @@ com.stiggpwnz.schedule.ScheduleActivity -> com.stiggpwnz.schedule.ScheduleActivi
     void onPageScrolled(int,float,int) -> a
     void onTabUnselected(com.actionbarsherlock.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> onTabUnselected
     void onTabReselected(com.actionbarsherlock.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> onTabReselected
+    void saveLesson(int,int,java.lang.String) -> a
+    java.lang.String getActualStringData(int,int) -> a
 com.stiggpwnz.schedule.ScheduleApplication -> com.stiggpwnz.schedule.ScheduleApplication:
     android.content.SharedPreferences prefs -> a
-    org.apache.poi.ss.usermodel.Sheet sheet -> b
-    org.apache.poi.ss.usermodel.Row row -> c
-    java.lang.String faculty -> d
-    java.lang.String groupName -> e
-    int group -> f
-    java.lang.String[][] lessons -> g
-    int day -> h
-    int week -> i
+    android.content.SharedPreferences saved -> b
+    org.apache.poi.ss.usermodel.Sheet sheet -> c
+    org.apache.poi.ss.usermodel.Row row -> d
+    java.lang.String faculty -> e
+    java.lang.String groupName -> f
+    int group -> g
+    java.lang.String[][] lessons -> h
+    int day -> i
+    int week -> j
     void onCreate() -> onCreate
     java.lang.String[][] getLessons() -> a
     java.lang.String[] loadLessons(int) -> c
+    java.lang.String getActualStringData(int,int) -> a
+    java.lang.String parseOddEven(java.lang.String) -> a
+    java.lang.String getSavedValue(int,int) -> b
+    void saveValue(int,int,java.lang.String) -> a
     org.apache.poi.ss.usermodel.Sheet openExcelFile() -> j
     boolean isRowUpdated() -> b
     org.apache.poi.ss.usermodel.Row getRow() -> c
@@ -5513,7 +5557,7 @@ com.stiggpwnz.schedule.ScheduleApplication -> com.stiggpwnz.schedule.ScheduleApp
     void resetFaculty() -> f
     void resetGroup() -> g
     java.lang.String getGroupName() -> h
-    void setGroupName(java.lang.String) -> a
+    void setGroupName(java.lang.String) -> b
     int getDay() -> i
     void setDay(int) -> a
     void setWeek(int) -> b

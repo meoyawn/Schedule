@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,11 +49,16 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 	}
 
 	private static void setSummary(ListPreference preference) {
-		String value = preference.getValue();
-		if (value != null && preference.getEntries() != null) {
-			int index = preference.findIndexOfValue(value);
-			CharSequence charSequence = preference.getEntries()[index];
-			preference.setSummary(charSequence);
+		try {
+			String value = preference.getValue();
+			CharSequence[] entries = preference.getEntries();
+			if (value != null && entries != null) {
+				int index = preference.findIndexOfValue(value);
+				CharSequence charSequence = entries[index];
+				preference.setSummary(charSequence);
+			}
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -71,6 +77,12 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 		if (key.equals(FACULTY)) {
 			app.resetFaculty();
 			setSummary(faculty);
+
+			Editor editor = sharedPreferences.edit();
+			editor.remove(GROUP);
+			editor.commit();
+			groups.setSummary(null);
+
 			new GroupsParser().execute();
 		} else if (key.equals(GROUP)) {
 			app.resetGroup();

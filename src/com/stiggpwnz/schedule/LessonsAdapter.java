@@ -42,6 +42,11 @@ public class LessonsAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void setLesson(int lesson, String input) {
+		lessons[lesson] = input;
+		notifyDataSetChanged();
+	}
+
 	public void setToday(boolean today) {
 		if (this.today != today) {
 			this.today = today;

@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.util.Calendar;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class ScheduleApplication extends Application {
@@ -26,6 +26,7 @@ public class ScheduleApplication extends Application {
 	private static final int FIRST_LESSON_CELL = 2;
 
 	private SharedPreferences prefs;
+	private SharedPreferences saved;
 	private Sheet sheet;
 	private Row row;
 
@@ -70,38 +71,66 @@ public class ScheduleApplication extends Application {
 	private String[] loadLessons(int day) {
 		String[] lessons = new String[LessonsAdapter.LESSONS_NUMBER];
 		for (int lesson = 0; lesson < LessonsAdapter.LESSONS_NUMBER; lesson++) {
-			int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
-			Cell cell = getRow().getCell(cellNum);
-			String cellValue = cell.getStringCellValue();
-			String shownValue = cellValue;
-			if (cellValue.startsWith(ODD_WEEK)) {
-				if (cellValue.contains(EVEN_WEEK)) {
-					if (week == ODD)
-						shownValue = cellValue.substring(cellValue.indexOf(ODD_WEEK) + 3, cellValue.indexOf(EVEN_WEEK));
-					else
-						shownValue = cellValue.substring(cellValue.indexOf(EVEN_WEEK) + 3, cellValue.length());
-				} else {
-					if (week == ODD)
-						shownValue = cellValue.substring(cellValue.indexOf(ODD_WEEK) + 3, cellValue.length());
-					else
-						shownValue = "";
-				}
-			} else if (cellValue.startsWith(EVEN_WEEK)) {
-				if (cellValue.contains(ODD_WEEK)) {
-					if (week == EVEN)
-						shownValue = cellValue.substring(cellValue.indexOf(EVEN_WEEK) + 3, cellValue.indexOf(ODD_WEEK));
-					else
-						shownValue = cellValue.substring(cellValue.indexOf(ODD_WEEK) + 3, cellValue.length());
-				} else {
-					if (week == ODD)
-						shownValue = "";
-					else
-						shownValue = cellValue.substring(cellValue.indexOf(EVEN_WEEK) + 3, cellValue.length());
-				}
+			String value = getSavedValue(day, lesson);
+			if (value == null) {
+				int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
+				value = getRow().getCell(cellNum).getStringCellValue();
 			}
-			lessons[lesson] = shownValue;
+			lessons[lesson] = parseOddEven(value);
 		}
 		return lessons;
+	}
+
+	public String getActualStringData(int day, int lesson) {
+		String value = getSavedValue(day, lesson);
+		if (value == null) {
+			int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
+			value = getRow().getCell(cellNum).getStringCellValue();
+		}
+		return value;
+	}
+
+	public String parseOddEven(String value) {
+		String shownValue = value.trim();
+		if (value.startsWith(ODD_WEEK)) {
+			if (value.contains(EVEN_WEEK)) {
+				if (week == ODD)
+					shownValue = value.substring(value.indexOf(ODD_WEEK) + 3, value.indexOf(EVEN_WEEK));
+				else
+					shownValue = value.substring(value.indexOf(EVEN_WEEK) + 3, value.length());
+			} else {
+				if (week == ODD)
+					shownValue = value.substring(value.indexOf(ODD_WEEK) + 3, value.length());
+				else
+					shownValue = "";
+			}
+		} else if (value.startsWith(EVEN_WEEK)) {
+			if (value.contains(ODD_WEEK)) {
+				if (week == EVEN)
+					shownValue = value.substring(value.indexOf(EVEN_WEEK) + 3, value.indexOf(ODD_WEEK));
+				else
+					shownValue = value.substring(value.indexOf(ODD_WEEK) + 3, value.length());
+			} else {
+				if (week == ODD)
+					shownValue = "";
+				else
+					shownValue = value.substring(value.indexOf(EVEN_WEEK) + 3, value.length());
+			}
+		}
+		return shownValue;
+	}
+
+	private String getSavedValue(int day, int lesson) {
+		String current = String.format("%d_%d", day, lesson);
+		return saved.getString(current, null);
+	}
+
+	public void saveValue(int day, int lesson, String input) {
+		String current = String.format("%d_%d", day, lesson);
+		Editor editor = saved.edit();
+		editor.putString(current, input);
+		editor.commit();
+		lessons[day][lesson] = input;
 	}
 
 	private Sheet openExcelFile() {
@@ -129,16 +158,20 @@ public class ScheduleApplication extends Application {
 	}
 
 	public String getFaculty() {
-		if (faculty == null)
+		if (faculty == null) {
 			faculty = prefs.getString(PreferenceActivity.FACULTY, null);
+		}
 		return faculty;
 	}
 
 	private int getGroup() {
 		if (group == 0) {
 			String number = prefs.getString(PreferenceActivity.GROUP, null);
-			if (number != null)
+			if (number != null) {
 				group = Integer.valueOf(number);
+				String faculty_group = String.format("%s_%d", getFaculty(), group);
+				saved = getSharedPreferences(faculty_group, MODE_PRIVATE);
+			}
 		}
 		return group;
 	}

@@ -22,15 +22,22 @@
     </string-array>
     <string-array name="faculties">
         <item>VMK</item>
+        <item>FF</item>
     </string-array>
     <string-array name="filenames">
         <item>vmk.xls</item>
+        <item>ff.xls</item>
     </string-array>
     <string-array name="groups_prefix">
         <item>9</item>
+        <item>6</item>
     </string-array>
 
     <string name="faculty">Faculty</string>
     <string name="group">Group</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="edit">Edit</string>
+    <string name="empty">н/н … ч/н …</string>
 
 </resources>

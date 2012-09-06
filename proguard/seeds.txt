@@ -1463,6 +1463,7 @@ com.actionbarsherlock.R$id: int abs__title
 com.actionbarsherlock.R$id: int abs__titleDivider
 com.actionbarsherlock.R$id: int abs__up
 com.actionbarsherlock.R$id: int disableHome
+com.actionbarsherlock.R$id: int edit
 com.actionbarsherlock.R$id: int homeAsUp
 com.actionbarsherlock.R$id: int listMode
 com.actionbarsherlock.R$id: int menu_settings
@@ -1502,6 +1503,7 @@ com.actionbarsherlock.R$layout: int abs__screen_action_bar_overlay
 com.actionbarsherlock.R$layout: int abs__screen_simple
 com.actionbarsherlock.R$layout: int abs__screen_simple_overlay_action_mode
 com.actionbarsherlock.R$layout: int activity_main
+com.actionbarsherlock.R$layout: int edit
 com.actionbarsherlock.R$layout: int lesson
 com.actionbarsherlock.R$layout: int sherlock_spinner_dropdown_item
 com.actionbarsherlock.R$layout: int sherlock_spinner_item
@@ -1521,9 +1523,13 @@ com.actionbarsherlock.R$string: int abs__share_action_provider_share_with
 com.actionbarsherlock.R$string: int abs__shareactionprovider_share_with
 com.actionbarsherlock.R$string: int abs__shareactionprovider_share_with_application
 com.actionbarsherlock.R$string: int app_name
+com.actionbarsherlock.R$string: int discard
+com.actionbarsherlock.R$string: int edit
+com.actionbarsherlock.R$string: int empty
 com.actionbarsherlock.R$string: int faculty
 com.actionbarsherlock.R$string: int group
 com.actionbarsherlock.R$string: int menu_settings
+com.actionbarsherlock.R$string: int save
 com.actionbarsherlock.R$string: R$string()
 com.actionbarsherlock.R$style
 com.actionbarsherlock.R$style: int DialogWindowTitle_Sherlock
@@ -5485,6 +5491,7 @@ com.stiggpwnz.schedule.R$id: int abs__title
 com.stiggpwnz.schedule.R$id: int abs__titleDivider
 com.stiggpwnz.schedule.R$id: int abs__up
 com.stiggpwnz.schedule.R$id: int disableHome
+com.stiggpwnz.schedule.R$id: int edit
 com.stiggpwnz.schedule.R$id: int homeAsUp
 com.stiggpwnz.schedule.R$id: int listMode
 com.stiggpwnz.schedule.R$id: int menu_settings
@@ -5520,6 +5527,7 @@ com.stiggpwnz.schedule.R$layout: int abs__screen_action_bar_overlay
 com.stiggpwnz.schedule.R$layout: int abs__screen_simple
 com.stiggpwnz.schedule.R$layout: int abs__screen_simple_overlay_action_mode
 com.stiggpwnz.schedule.R$layout: int activity_main
+com.stiggpwnz.schedule.R$layout: int edit
 com.stiggpwnz.schedule.R$layout: int lesson
 com.stiggpwnz.schedule.R$layout: int sherlock_spinner_dropdown_item
 com.stiggpwnz.schedule.R$layout: int sherlock_spinner_item
@@ -5535,9 +5543,13 @@ com.stiggpwnz.schedule.R$string: int abs__share_action_provider_share_with
 com.stiggpwnz.schedule.R$string: int abs__shareactionprovider_share_with
 com.stiggpwnz.schedule.R$string: int abs__shareactionprovider_share_with_application
 com.stiggpwnz.schedule.R$string: int app_name
+com.stiggpwnz.schedule.R$string: int discard
+com.stiggpwnz.schedule.R$string: int edit
+com.stiggpwnz.schedule.R$string: int empty
 com.stiggpwnz.schedule.R$string: int faculty
 com.stiggpwnz.schedule.R$string: int group
 com.stiggpwnz.schedule.R$string: int menu_settings
+com.stiggpwnz.schedule.R$string: int save
 com.stiggpwnz.schedule.R$style: int DialogWindowTitle_Sherlock
 com.stiggpwnz.schedule.R$style: int DialogWindowTitle_Sherlock_Light
 com.stiggpwnz.schedule.R$style: int Sherlock___TextAppearance_Small
