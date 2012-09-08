@@ -68,4 +68,11 @@
 
 -keep class org.apache.poi.** {*; }
 -keep interface org.apache.poi.** {*; }
+
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** e(...);
+    public static *** i(...);
+}
 				

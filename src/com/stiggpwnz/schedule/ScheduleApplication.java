@@ -2,9 +2,9 @@ package com.stiggpwnz.schedule;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
@@ -12,6 +12,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class ScheduleApplication extends Application {
 
@@ -35,28 +36,13 @@ public class ScheduleApplication extends Application {
 	private int group;
 	private String[][] lessons;
 
-	private int day;
+	private int day = -1;
 	private int week;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		Calendar calendar = Calendar.getInstance();
-		day = calendar.get(Calendar.DAY_OF_WEEK) + 5;
-		week = calendar.get(Calendar.WEEK_OF_YEAR);
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		if (day == 5 && hour >= 19) {
-			day += 2;
-			week++;
-		} else if (day == 6) {
-			day++;
-			week++;
-		} else if (hour >= 19)
-			day++;
-		week = week % 2;
-		day = day % 7;
 	}
 
 	public String[][] getLessons() {
@@ -71,23 +57,28 @@ public class ScheduleApplication extends Application {
 	private String[] loadLessons(int day) {
 		String[] lessons = new String[LessonsAdapter.LESSONS_NUMBER];
 		for (int lesson = 0; lesson < LessonsAdapter.LESSONS_NUMBER; lesson++) {
-			String value = getSavedValue(day, lesson);
-			if (value == null) {
-				int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
-				value = getRow().getCell(cellNum).getStringCellValue();
-			}
+			String value = getStringCellValue(day, lesson);
 			lessons[lesson] = parseOddEven(value);
 		}
 		return lessons;
 	}
 
-	public String getActualStringData(int day, int lesson) {
+	public String getStringCellValue(int day, int lesson) {
 		String value = getSavedValue(day, lesson);
 		if (value == null) {
 			int cellNum = FIRST_LESSON_CELL + day * LessonsAdapter.LESSONS_NUMBER + lesson + day;
-			value = getRow().getCell(cellNum).getStringCellValue();
+			Log.d("tag", "cell number: " + cellNum);
+			Cell cell = getRow().getCell(cellNum);
+			if (cell != null)
+				value = cell.getStringCellValue();
+			if (value == null)
+				value = "";
 		}
 		return value;
+	}
+
+	public String getActualStringData(int day, int lesson) {
+		return getStringCellValue(day, lesson);
 	}
 
 	public String parseOddEven(String value) {
@@ -173,6 +164,7 @@ public class ScheduleApplication extends Application {
 				saved = getSharedPreferences(faculty_group, MODE_PRIVATE);
 			}
 		}
+		Log.d("tag", "group: " + group);
 		return group;
 	}
 
@@ -210,11 +202,13 @@ public class ScheduleApplication extends Application {
 	}
 
 	public int getDay() {
+		Log.d("tag", "gettin day: " + day);
 		return day;
 	}
 
 	public void setDay(int day) {
 		this.day = day;
+		Log.d("tag", "setting day: " + day);
 	}
 
 	public int getWeek() {

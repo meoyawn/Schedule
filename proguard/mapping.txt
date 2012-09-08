@@ -5544,9 +5544,10 @@ com.stiggpwnz.schedule.ScheduleApplication -> com.stiggpwnz.schedule.ScheduleApp
     void onCreate() -> onCreate
     java.lang.String[][] getLessons() -> a
     java.lang.String[] loadLessons(int) -> c
-    java.lang.String getActualStringData(int,int) -> a
+    java.lang.String getStringCellValue(int,int) -> a
+    java.lang.String getActualStringData(int,int) -> b
     java.lang.String parseOddEven(java.lang.String) -> a
-    java.lang.String getSavedValue(int,int) -> b
+    java.lang.String getSavedValue(int,int) -> c
     void saveValue(int,int,java.lang.String) -> a
     org.apache.poi.ss.usermodel.Sheet openExcelFile() -> j
     boolean isRowUpdated() -> b

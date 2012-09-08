@@ -31,7 +31,7 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 
 	private void updateDay() {
 		Calendar calendar = Calendar.getInstance();
-		int day = calendar.get(Calendar.DAY_OF_WEEK) + 5;
+		int day = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;
 		int week = calendar.get(Calendar.WEEK_OF_YEAR);
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		if (day == 5 && hour >= 19) {

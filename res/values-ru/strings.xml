@@ -23,14 +23,17 @@
     <string-array name="faculties">
         <item>ВМК</item>
         <item>ФФ</item>
+        <item>ММ</item>
     </string-array>
     <string-array name="filenames">
         <item>vmk.xls</item>
         <item>ff.xls</item>
+        <item>mm.xls</item>
     </string-array>
     <string-array name="groups_prefix">
         <item>9</item>
         <item>6</item>
+        <item>5</item>
     </string-array>
 
     <string name="faculty">Факультет</string>
