@@ -45,6 +45,16 @@ public class ScheduleApplication extends Application {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		sheet = null;
+		row = null;
+		faculty = null;
+		groupName = null;
+		lessons = null;
+	}
+
 	public String[][] getLessons() {
 		if (lessons == null) {
 			lessons = new String[DaysAdapter.DAYS_NUMBER][];
@@ -52,6 +62,10 @@ public class ScheduleApplication extends Application {
 				lessons[i] = loadLessons(i);
 		}
 		return lessons;
+	}
+
+	public void resetLessons() {
+		lessons = null;
 	}
 
 	private String[] loadLessons(int day) {

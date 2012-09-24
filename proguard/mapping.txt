@@ -5542,25 +5542,28 @@ com.stiggpwnz.schedule.ScheduleApplication -> com.stiggpwnz.schedule.ScheduleApp
     int day -> i
     int week -> j
     void onCreate() -> onCreate
+    void onLowMemory() -> onLowMemory
     java.lang.String[][] getLessons() -> a
+    void resetLessons() -> b
     java.lang.String[] loadLessons(int) -> c
     java.lang.String getStringCellValue(int,int) -> a
     java.lang.String getActualStringData(int,int) -> b
     java.lang.String parseOddEven(java.lang.String) -> a
     java.lang.String getSavedValue(int,int) -> c
     void saveValue(int,int,java.lang.String) -> a
-    org.apache.poi.ss.usermodel.Sheet openExcelFile() -> j
-    boolean isRowUpdated() -> b
-    org.apache.poi.ss.usermodel.Row getRow() -> c
-    java.lang.String getFaculty() -> d
-    int getGroup() -> k
-    org.apache.poi.ss.usermodel.Sheet getSheet() -> e
-    void resetFaculty() -> f
-    void resetGroup() -> g
-    java.lang.String getGroupName() -> h
+    org.apache.poi.ss.usermodel.Sheet openExcelFile() -> l
+    boolean isRowUpdated() -> c
+    org.apache.poi.ss.usermodel.Row getRow() -> d
+    java.lang.String getFaculty() -> e
+    int getGroup() -> m
+    org.apache.poi.ss.usermodel.Sheet getSheet() -> f
+    void resetFaculty() -> g
+    void resetGroup() -> h
+    java.lang.String getGroupName() -> i
     void setGroupName(java.lang.String) -> b
-    int getDay() -> i
+    int getDay() -> j
     void setDay(int) -> a
+    int getWeek() -> k
     void setWeek(int) -> b
 org.apache.poi.EncryptedDocumentException -> org.apache.poi.EncryptedDocumentException:
 org.apache.poi.OldFileFormatException -> org.apache.poi.OldFileFormatException:

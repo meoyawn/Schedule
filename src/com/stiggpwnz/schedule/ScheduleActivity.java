@@ -47,8 +47,12 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 
 		if (app.getDay() != day) {
 			app.setDay(day);
-			app.setWeek(week);
 			adapter.setDay(day);
+		}
+		if (app.getWeek() != week) {
+			app.setWeek(week);
+			app.resetLessons();
+			adapter.setLessons(app.getLessons());
 		}
 	}
 

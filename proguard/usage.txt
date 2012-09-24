@@ -647,4 +647,3 @@ com.stiggpwnz.schedule.ScheduleApplication:
     private static final int ODD
     private static final int EVEN
     private static final int FIRST_LESSON_CELL
-    215:215:public int getWeek()
