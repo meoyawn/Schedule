@@ -575,12 +575,6 @@ android.support.v4.view.accessibility.AccessibilityRecordCompat$AccessibilityRec
 android.support.v4.view.accessibility.AccessibilityRecordCompatIcs
 android.support.v4.view.accessibility.AccessibilityRecordCompatIcsMr1
 android.support.v4.view.accessibility.AccessibilityRecordCompatJellyBean
-android.support.v4.widget.CursorAdapter
-android.support.v4.widget.CursorAdapter$1
-android.support.v4.widget.CursorAdapter$ChangeObserver
-android.support.v4.widget.CursorAdapter$MyDataSetObserver
-android.support.v4.widget.CursorFilter
-android.support.v4.widget.CursorFilter$CursorFilterClient
 android.support.v4.widget.EdgeEffectCompat:
     204:204:public boolean onAbsorb(int)
 android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl:
@@ -592,7 +586,6 @@ android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl:
 android.support.v4.widget.EdgeEffectCompatIcs:
     28:28:EdgeEffectCompatIcs()
     57:58:public static boolean onAbsorb(java.lang.Object,int)
-android.support.v4.widget.ResourceCursorAdapter
 android.support.v4.widget.ScrollerCompat
 android.support.v4.widget.ScrollerCompat$ScrollerCompatImplIcs
 android.support.v4.widget.ScrollerCompatIcs
