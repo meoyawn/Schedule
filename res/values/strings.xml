@@ -22,8 +22,8 @@
     </string-array>
     <string-array name="faculties">
         <item>VMK</item>
-        <item>FF</item>
-        <item>MM</item>
+        <item>FF (old)</item>
+        <item>MM (old)</item>
     </string-array>
     <string-array name="filenames">
         <item>vmk.xls</item>

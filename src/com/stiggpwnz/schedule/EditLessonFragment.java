@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -69,7 +74,8 @@ public class EditLessonFragment extends SherlockDialogFragment {
 				int lesson = getArguments().getInt(LESSON);
 				String output = edit.getText().toString().trim();
 				listener.saveLesson(day, lesson, output);
-				dismissAllowingStateLoss();
+
+				Keyboard.hide(edit);
 			}
 		});
 
@@ -77,9 +83,11 @@ public class EditLessonFragment extends SherlockDialogFragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				dismissAllowingStateLoss();
+				Keyboard.hide(edit);
 			}
 		});
+
+		Keyboard.show(edit);
 
 		return builder.create();
 	}
@@ -100,6 +108,27 @@ public class EditLessonFragment extends SherlockDialogFragment {
 	public void onDetach() {
 		super.onDetach();
 		listener = null;
+	}
+
+	private static class Keyboard {
+
+		public static void show(final EditText editText) {
+			new Handler().postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					editText.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0,
+							0));
+					editText.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
+				}
+			}, 50);
+		}
+
+		public static void hide(View view) {
+			InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+
 	}
 
 }

@@ -127,11 +127,13 @@ public class ScheduleApplication extends Application {
 		return shownValue;
 	}
 
+	@SuppressLint("DefaultLocale")
 	private String getSavedValue(int day, int lesson) {
 		String current = String.format("%d_%d", day, lesson);
 		return saved.getString(current, null);
 	}
 
+	@SuppressLint("DefaultLocale")
 	public void saveValue(int day, int lesson, String input) {
 		String current = String.format("%d_%d", day, lesson);
 		Editor editor = saved.edit();
