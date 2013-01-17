@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -48,6 +49,7 @@ public class ScheduleApplication extends Application {
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
+
 		sheet = null;
 		row = null;
 		faculty = null;
@@ -169,12 +171,13 @@ public class ScheduleApplication extends Application {
 		return faculty;
 	}
 
+	@SuppressLint("DefaultLocale")
 	private int getGroup() {
 		if (group == 0) {
 			String number = prefs.getString(PreferenceActivity.GROUP, null);
 			if (number != null) {
 				group = Integer.valueOf(number);
-				String faculty_group = String.format("%s_%d", getFaculty(), group);
+				String faculty_group = String.format("2%s_%d", getFaculty(), group);
 				saved = getSharedPreferences(faculty_group, MODE_PRIVATE);
 			}
 		}

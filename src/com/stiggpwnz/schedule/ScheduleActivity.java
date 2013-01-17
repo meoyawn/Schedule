@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -15,7 +14,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, OnPageChangeListener, EditLessonFragment.Listener, DayFragment.Listener {
+public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, EditLessonFragment.Listener, DayFragment.Listener,
+		OnPageChangeListener {
 
 	private ScheduleApplication app;
 	private ViewPager pager;
@@ -113,11 +113,6 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 	}
 
 	@Override
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		pager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
 	public void onPageSelected(int position) {
 		getSupportActionBar().setSelectedNavigationItem(position);
 	}
@@ -133,16 +128,6 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 	}
 
 	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-
-	}
-
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-
-	}
-
-	@Override
 	public void saveLesson(int day, int lesson, String output) {
 		String parseOddEven = app.parseOddEven(output);
 		app.saveValue(day, lesson, output);
@@ -152,5 +137,21 @@ public class ScheduleActivity extends SherlockFragmentActivity implements TabLis
 	@Override
 	public String getActualStringData(int day, int lesson) {
 		return app.getActualStringData(day, lesson);
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+		pager.setCurrentItem(tab.getPosition());
+
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
 	}
 }

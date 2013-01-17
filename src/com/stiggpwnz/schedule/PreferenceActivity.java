@@ -1,6 +1,7 @@
 package com.stiggpwnz.schedule;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -14,6 +15,7 @@ import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 
 public class PreferenceActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -35,6 +37,7 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 		super.onCreate(savedInstanceState);
 		app = (ScheduleApplication) getApplication();
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		addPreferencesFromResource(R.xml.preferences);
 
 		faculty = (ListPreference) findPreference(FACULTY);
@@ -46,6 +49,18 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 		groups.setDialogTitle(getString(R.string.group));
 		groups.setTitle(getString(R.string.group));
 		getPreferenceScreen().addPreference(groups);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private static void setSummary(ListPreference preference) {
@@ -137,8 +152,8 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements On
 			if (group != -1) {
 				String prefix = getResources().getStringArray(R.array.groups_prefix)[group];
 				int lastRowNum = sheet.getLastRowNum();
-				LinkedList<String> names = new LinkedList<String>();
-				LinkedList<String> numbers = new LinkedList<String>();
+				List<String> names = new ArrayList<String>();
+				List<String> numbers = new ArrayList<String>();
 				for (int i = sheet.getFirstRowNum(); i <= lastRowNum; i++) {
 					Cell cell = sheet.getRow(i).getCell(GROUP_NAME_CELL);
 
