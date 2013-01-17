@@ -1,6 +1,6 @@
-# KSU Schedule
+# KSU Schedule for Android
 
-An Android schedule app for my university, parsing *.xls file, highliting current lesson, supporting odd and even weeks
+Schedule app for my university, parsing *.xls file, highliting current lesson, supporting odd and even weeks
 
 <a href="https://play.google.com/store/apps/details?id=com.stiggpwnz.schedule">
   <img alt="Get it on Google Play"
