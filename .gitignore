@@ -1,4 +1,15 @@
 #################
+## Android Studio
+#################
+
+gradlew*
+gradle/
+*.iml
+build/
+.idea/
+.gradle/
+
+#################
 ## Eclipse
 #################
 

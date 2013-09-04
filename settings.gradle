@@ -1,0 +1,4 @@
+include ':Schedule'
+include ':PagerSlidingTabStrip'
+include ':SherlockProgressFragment'
+include ':SherlockNavigationDrawer'
