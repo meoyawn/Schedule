@@ -22,18 +22,12 @@
     </string-array>
     <string-array name="faculties">
         <item>VMK</item>
-        <item>FF (old)</item>
-        <item>MM (old)</item>
     </string-array>
     <string-array name="filenames">
         <item>vmk.xls</item>
-        <item>ff.xls</item>
-        <item>mm.xls</item>
     </string-array>
     <string-array name="groups_prefix">
         <item>9</item>
-        <item>6</item>
-        <item>5</item>
     </string-array>
 
     <string name="faculty">Faculty</string>

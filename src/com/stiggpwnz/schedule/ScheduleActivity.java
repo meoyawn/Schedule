@@ -1,11 +1,10 @@
 package com.stiggpwnz.schedule;
 
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -14,144 +13,147 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import java.util.Calendar;
+
 public class ScheduleActivity extends SherlockFragmentActivity implements TabListener, EditLessonFragment.Listener, DayFragment.Listener,
-		OnPageChangeListener {
+        OnPageChangeListener {
 
-	private ScheduleApplication app;
-	private ViewPager pager;
-	private DaysAdapter adapter;
+    private ScheduleApplication app;
+    private ViewPager pager;
+    private DaysAdapter adapter;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		app = (ScheduleApplication) getApplication();
-		setContentView(R.layout.activity_main);
-		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        app = (ScheduleApplication) getApplication();
+        setContentView(R.layout.activity_main);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    }
 
-	private void updateDay() {
-		Calendar calendar = Calendar.getInstance();
-		int day = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;
-		int week = calendar.get(Calendar.WEEK_OF_YEAR);
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		if (day == 5 && hour >= 19) {
-			day += 2;
-			week++;
-		} else if (day == 6) {
-			day++;
-			week++;
-		} else if (hour >= 19)
-			day++;
-		week = week % 2;
-		day = day % 7;
+    private void updateDay() {
+        Calendar calendar = Calendar.getInstance();
+        int day = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        Log.d("schedule", "week = " + week);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if (day == 5 && hour >= 19) {
+            day += 2;
+            week++;
+        } else if (day == 6) {
+            day++;
+            week++;
+        } else if (hour >= 19)
+            day++;
+        week = week % 2;
+        day = day % 7;
 
-		if (app.getDay() != day) {
-			app.setDay(day);
-			adapter.setDay(day);
-		}
-		if (app.getWeek() != week) {
-			app.setWeek(week);
-			app.resetLessons();
-			adapter.setLessons(app.getLessons());
-		}
-	}
+        if (app.getDay() != day) {
+            app.setDay(day);
+            adapter.setDay(day);
+        }
+        if (app.getWeek() != week) {
+            app.setWeek(week);
+            app.resetLessons();
+            adapter.setLessons(app.getLessons());
+        }
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (adapter != null) {
-			setTitle(app.getGroupName());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            setTitle(app.getGroupName());
 
-			if (app.isRowUpdated())
-				adapter.setLessons(app.getLessons());
-			updateDay();
-			adapter.updateLesson();
+            if (app.isRowUpdated())
+                adapter.setLessons(app.getLessons());
+            updateDay();
+            adapter.updateLesson();
 
-			getSupportActionBar().setSelectedNavigationItem(app.getDay());
-			pager.setCurrentItem(app.getDay());
-		} else if (app.getRow() != null) {
-			setTitle(app.getGroupName());
+            getSupportActionBar().setSelectedNavigationItem(app.getDay());
+            pager.setCurrentItem(app.getDay());
+        } else if (app.getRow() != null) {
+            setTitle(app.getGroupName());
 
-			adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getDay(), app.getLessons());
-			updateDay();
+            adapter = new DaysAdapter(this, getSupportFragmentManager(), app.getDay(), app.getLessons());
+            updateDay();
 
-			pager = (ViewPager) findViewById(R.id.pager);
-			pager.setAdapter(adapter);
-			pager.setOnPageChangeListener(this);
+            pager = (ViewPager) findViewById(R.id.pager);
+            pager.setAdapter(adapter);
+            pager.setOnPageChangeListener(this);
 
-			for (int i = 0; i < adapter.getCount(); i++) {
-				CharSequence pageTitle = adapter.getPageTitle(i);
-				Tab tab = getSupportActionBar().newTab();
-				tab.setText(pageTitle);
-				tab.setTabListener(this);
-				getSupportActionBar().addTab(tab);
-			}
+            for (int i = 0; i < adapter.getCount(); i++) {
+                CharSequence pageTitle = adapter.getPageTitle(i);
+                Tab tab = getSupportActionBar().newTab();
+                tab.setText(pageTitle);
+                tab.setTabListener(this);
+                getSupportActionBar().addTab(tab);
+            }
 
-			getSupportActionBar().setSelectedNavigationItem(app.getDay());
-			pager.setCurrentItem(app.getDay());
-		} else {
-			startActivity(new Intent(this, PreferenceActivity.class));
-		}
-	}
+            getSupportActionBar().setSelectedNavigationItem(app.getDay());
+            pager.setCurrentItem(app.getDay());
+        } else {
+            startActivity(new Intent(this, PreferenceActivity.class));
+        }
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			startActivity(new Intent(this, PreferenceActivity.class));
-			return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                startActivity(new Intent(this, PreferenceActivity.class));
+                return true;
 
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-	@Override
-	public void onPageSelected(int position) {
-		getSupportActionBar().setSelectedNavigationItem(position);
-	}
+    @Override
+    public void onPageSelected(int position) {
+        getSupportActionBar().setSelectedNavigationItem(position);
+    }
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
 
-	}
+    }
 
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-	}
+    }
 
-	@Override
-	public void saveLesson(int day, int lesson, String output) {
-		String parseOddEven = app.parseOddEven(output);
-		app.saveValue(day, lesson, output);
-		adapter.setLesson(day, lesson, parseOddEven);
-	}
+    @Override
+    public void saveLesson(int day, int lesson, String output) {
+        String parseOddEven = app.parseOddEven(output);
+        app.saveValue(day, lesson, output);
+        adapter.setLesson(day, lesson, parseOddEven);
+    }
 
-	@Override
-	public String getActualStringData(int day, int lesson) {
-		return app.getActualStringData(day, lesson);
-	}
+    @Override
+    public String getActualStringData(int day, int lesson) {
+        return app.getActualStringData(day, lesson);
+    }
 
-	@Override
-	public void onTabSelected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
-		pager.setCurrentItem(tab.getPosition());
+    @Override
+    public void onTabSelected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+        pager.setCurrentItem(tab.getPosition());
 
-	}
+    }
 
-	@Override
-	public void onTabUnselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+    @Override
+    public void onTabUnselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
 
-	}
+    }
 
-	@Override
-	public void onTabReselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
+    @Override
+    public void onTabReselected(Tab tab, android.support.v4.app.FragmentTransaction ft) {
 
-	}
+    }
 }
