@@ -1,18 +1,21 @@
 package com.stiggpwnz.schedule.fragments.base;
 
 import android.os.Bundle;
-import android.os.Looper;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.stiggpwnz.schedule.MultiThreadedBus;
+import com.stiggpwnz.schedule.Persistence;
 import com.stiggpwnz.schedule.ScheduleApp;
 
 import javax.inject.Inject;
 
-public class BaseListFragment extends SherlockListFragment implements FragmentInterface {
+import timber.log.Timber;
 
-    @Inject
-    protected MultiThreadedBus bus;
+public class BaseListFragment extends SherlockListFragment {
+
+    @Inject protected MultiThreadedBus bus;
+    @Inject protected Timber timber;
+    @Inject protected Persistence persistence;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,19 +33,5 @@ public class BaseListFragment extends SherlockListFragment implements FragmentIn
     public void onPause() {
         super.onPause();
         bus.unregister(this);
-    }
-
-    @Override
-    public void runOnUiThread(Runnable runnable) {
-        getActivity().runOnUiThread(runnable);
-    }
-
-    @Override
-    public void runOnBackgroundThread(Runnable runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            new Thread(runnable).start();
-        } else {
-            runnable.run();
-        }
     }
 }

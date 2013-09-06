@@ -6,14 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.File;
-import java.util.Calendar;
 
 import javax.inject.Singleton;
 
 import butterknife.Views;
 
 /**
- * Created by stiggpwnz on 31.08.13.
+ * Created by stiggpwnz on 31.08.13
  */
 @Singleton
 public class Utils {
@@ -34,7 +33,4 @@ public class Utils {
         parent.addView(view, index);
     }
 
-    public static boolean isEvenWeek() {
-        return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) % 2 == 1;
-    }
 }

@@ -2,7 +2,7 @@ package com.stiggpwnz.schedule.fragments.base;
 
 import android.os.Bundle;
 
-public abstract class RetainedProgressFragment extends BaseProgressFragment implements RetainedInterface {
+public abstract class RetainedProgressFragment extends BaseProgressFragment {
 
     private boolean created;
 
@@ -19,7 +19,7 @@ public abstract class RetainedProgressFragment extends BaseProgressFragment impl
             created = savedInstanceState.getBoolean("created", false);
         }
         if (!created) {
-            onFirstCreated(getView());
+            onFirstCreated();
             created = true;
         }
     }
@@ -29,4 +29,7 @@ public abstract class RetainedProgressFragment extends BaseProgressFragment impl
         super.onSaveInstanceState(outState);
         outState.putBoolean("created", created);
     }
+
+    public abstract void onFirstCreated();
+
 }

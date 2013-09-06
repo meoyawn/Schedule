@@ -15,12 +15,17 @@ import com.stiggpwnz.schedule.fragments.base.RetainedProgressFragment;
 import static com.stiggpwnz.schedule.fragments.MainFragment.DROPBOX;
 
 /**
- * Created by stiggpwnz on 01.09.13.
+ * Created by stiggpwnz on 01.09.13
  */
 public class FacultiesFragment extends RetainedProgressFragment implements AdapterView.OnItemClickListener, FutureCallback<FileMetadata[]> {
 
     ListView listView;
     FileMetadata[] fileMetadatas;
+
+    @Override
+    protected void onRetryClick() {
+        onFirstCreated();
+    }
 
     @Override
     protected void onCreateView(Bundle savedInstanceState) {
@@ -37,7 +42,7 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
     }
 
     @Override
-    public void onFirstCreated(View view) {
+    public void onFirstCreated() {
         setContentShown(false);
         Ion.with(getActivity(), DROPBOX + "/list.json")
                 .group(this)
@@ -52,7 +57,6 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
             setAdapter();
             setContentEmpty(false);
         } else {
-            setEmptyText(e.getMessage());
             setContentEmpty(true);
         }
         setContentShown(true);

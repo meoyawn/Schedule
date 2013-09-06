@@ -8,19 +8,19 @@ import android.view.ViewGroup;
 import com.stiggpwnz.schedule.fragments.DayFragment;
 
 /**
- * Created by stiggpwnz on 30.08.13.
+ * Created by stiggpwnz on 30.08.13
  */
 public class DaysPagerAdapter extends FragmentPagerAdapter {
 
-    private String[][] days;
+    private String[][] lessons;
     private String[] titles;
     private DayFragment[] fragments;
 
-    public DaysPagerAdapter(FragmentManager fm, String[][] days, String[] titles) {
+    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles) {
         super(fm);
-        this.days = days;
+        this.lessons = lessons;
         this.titles = titles;
-        this.fragments = new DayFragment[getCount()];
+        this.fragments = new DayFragment[lessons.length];
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        return DayFragment.newInstance(days[i]);
+        return DayFragment.newInstance(lessons[i]);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return days.length;
+        return lessons.length;
     }
 
-    public void setDays(String[][] days) {
-        this.days = days;
+    public void setLessons(String[][] lessons) {
+        this.lessons = lessons;
         for (int i = 0; i < getCount(); i++) {
             if (fragments[i] != null) {
-                fragments[i].setLessons(days[i]);
+                fragments[i].setLessons(lessons[i]);
             }
         }
     }

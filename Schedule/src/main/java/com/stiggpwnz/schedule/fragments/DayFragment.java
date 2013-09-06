@@ -8,7 +8,7 @@ import com.stiggpwnz.schedule.adapters.LessonsAdapter;
 import com.stiggpwnz.schedule.fragments.base.BaseListFragment;
 
 /**
- * Created by stiggpwnz on 31.08.13.
+ * Created by stiggpwnz on 31.08.13
  */
 public class DayFragment extends BaseListFragment {
 
