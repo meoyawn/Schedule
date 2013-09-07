@@ -17,6 +17,6 @@
      limitations under the License.
 -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/pressed_schedule" />
-</shape>
+<resources>
+    <color name="pressed_schedule">#CCBEC167</color>
+</resources>
