@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.sherlock.navigationdrawer.compat.SherlockActionBarDrawerToggle;
 import com.squareup.otto.Subscribe;
@@ -65,6 +66,12 @@ public class MainActivity extends BaseActivity {
                 drawerToggle.onDrawerOpened(null);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override

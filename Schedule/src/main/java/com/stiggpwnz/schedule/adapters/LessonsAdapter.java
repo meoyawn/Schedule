@@ -18,26 +18,22 @@ import butterknife.Views;
  */
 public class LessonsAdapter extends BaseAdapter {
 
-    public static final int LESSONS_NUMBER = 7;
-
     private LayoutInflater inflater;
 
     private String[] times;
     private String[] lessons;
 
-    private int blueColor;
+    private int highlightedColor;
     private Drawable whiteDrawable;
 
     private int lesson;
-    private boolean today;
 
-    public LessonsAdapter(Context context, String[] lessons, String[] times) {
-        // TODO fix
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public LessonsAdapter(Context context, String[] lessons, String[] times, int lesson, int highlightedColor) {
+        this.inflater = LayoutInflater.from(context);
         this.times = times;
-        // TODO fix
-        this.blueColor = context.getResources().getColor(R.color.blue);
+        this.highlightedColor = highlightedColor;
         this.lessons = lessons;
+        this.lesson = lesson;
     }
 
     public void setLessons(String[] lessons) {
@@ -47,7 +43,7 @@ public class LessonsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return LESSONS_NUMBER;
+        return 7;
     }
 
     @Override
@@ -85,12 +81,17 @@ public class LessonsAdapter extends BaseAdapter {
         viewholder.time.setText(times[position]);
         viewholder.lesson.setText(lessons[position]);
 
-        if (today && position == lesson)
-            convertView.setBackgroundColor(blueColor);
-        else {
+        if (position == lesson) {
+            convertView.setBackgroundColor(highlightedColor);
+        } else {
             convertView.setBackgroundDrawable(whiteDrawable);
         }
 
         return convertView;
+    }
+
+    public void setLesson(int lesson) {
+        this.lesson = lesson;
+        notifyDataSetChanged();
     }
 }

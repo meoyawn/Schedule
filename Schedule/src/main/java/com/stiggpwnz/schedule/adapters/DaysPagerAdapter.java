@@ -15,12 +15,14 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
     private String[][] lessons;
     private String[] titles;
     private DayFragment[] fragments;
+    private int day;
 
-    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles) {
+    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles, int day) {
         super(fm);
         this.lessons = lessons;
         this.titles = titles;
         this.fragments = new DayFragment[lessons.length];
+        this.day = day;
     }
 
     @Override
@@ -30,7 +32,11 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        return DayFragment.newInstance(lessons[i]);
+        DayFragment dayFragment = DayFragment.newInstance(lessons[i]);
+        if (i == day) {
+            dayFragment.getArguments().putBoolean("today", true);
+        }
+        return dayFragment;
     }
 
     @Override
@@ -43,6 +49,16 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return lessons.length;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+        for (int i = 0; i < getCount(); i++) {
+            DayFragment fragment = fragments[i];
+            if (fragment != null) {
+                fragment.setToday(i == day);
+            }
+        }
     }
 
     public void setLessons(String[][] lessons) {

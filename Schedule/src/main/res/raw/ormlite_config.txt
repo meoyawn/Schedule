@@ -1,0 +1,20 @@
+#
+# generated on 2013/09/07 08:24:07
+#
+# --table-start--
+dataClass=com.stiggpwnz.schedule.Group
+tableName=group
+# --table-fields-start--
+# --field-start--
+fieldName=name
+id=true
+# --field-end--
+# --field-start--
+fieldName=column
+# --field-end--
+# --field-start--
+fieldName=isFavourite
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

@@ -43,9 +43,7 @@ public class Persistence {
 
             @Override
             public void run() {
-                prefs.edit()
-                        .putInt(faculty, group)
-                        .commit();
+                prefs.edit().putInt(faculty, group).commit();
             }
         }.start();
     }

@@ -9,18 +9,14 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
     compile 'com.jakewharton:butterknife:+'
     compile 'com.squareup:otto:+'
-    compile('com.github.frankiesardo:icepick:+') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
-    compile('de.keyboardsurfer.android.widget:crouton:+') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
     compile 'com.squareup.dagger:dagger-compiler:+'
     compile 'com.squareup.dagger:dagger:+'
     compile 'net.sf.opencsv:opencsv:+'
     compile 'com.koushikdutta.ion:ion:+'
     compile 'com.jakewharton.timber:timber:+'
     compile 'com.netflix.rxjava:rxjava-android:+'
+    compile 'joda-time:joda-time:+'
+    compile 'com.j256.ormlite:ormlite-android:+'
 }
 
 android {
@@ -32,5 +28,3 @@ android {
         targetSdkVersion 18
     }
 }
-
-

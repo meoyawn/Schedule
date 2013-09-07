@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:gravity="center_vertical"
+              android:paddingLeft="5dp">
+
+    <ImageView
+        android:id="@+id/imgFavIcon"
+        android:src="@drawable/ic_action_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@android:id/text1"
+        style="?android:attr/spinnerDropDownItemStyle"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/dropdownListPreferredItemHeight"
+        android:ellipsize="marquee"/>
+</LinearLayout>

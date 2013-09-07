@@ -31,6 +31,7 @@
     <string name="choose_your_faculty">Please choose your faculty</string>
     <string name="error_downloading_faculty_file">Error downloading your faculty file</string>
     <string name="unable_to_parse_lessons">Unable to parse lessons</string>
+    <string name="time_separator">–</string>
 
 
 </resources>

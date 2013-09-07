@@ -1,3 +1,14 @@
 <resources>
-    <style name="AppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar"></style>
+
+    <style name="BaseAppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/GreenActionBarStyle</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/BaseAppTheme">
+        <item name="actionBarStyle">@style/GreenActionBarStyle</item>
+    </style>
+
+    <style name="GreenActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/green</item>
+    </style>
 </resources>
