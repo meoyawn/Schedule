@@ -4,6 +4,7 @@ dependencies {
     compile project(':PagerSlidingTabStrip')
     compile project(':SherlockProgressFragment')
     compile project(':SherlockNavigationDrawer')
+    compile project(':colorpicker')
 
     compile 'com.android.support:support-v4:+'
     compile 'com.actionbarsherlock:actionbarsherlock:+@aar'

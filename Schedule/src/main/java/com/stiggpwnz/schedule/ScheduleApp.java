@@ -1,10 +1,7 @@
 package com.stiggpwnz.schedule;
 
-import android.annotation.TargetApi;
 import android.app.Application;
-import android.content.Intent;
-import android.os.Build;
-import android.os.StrictMode;
+import android.app.PendingIntent;
 
 import dagger.ObjectGraph;
 
@@ -23,21 +20,10 @@ public class ScheduleApp extends Application {
 
     @Override
     public void onCreate() {
-        if (Build.VERSION.SDK_INT >= 9) {
-            enableStrictMode();
-        }
         objectGraph = ObjectGraph.create(new DependenciesModule(this));
         super.onCreate();
-        startService(new Intent(this, NotifierService.class));
-    }
-
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    void enableStrictMode() {
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-                    .penaltyDeath()
-                    .build());
+        if (PendingIntent.getService(this, 0, NotifierService.newInstance(this, 0), PendingIntent.FLAG_NO_CREATE) == null) {
+            new BootCompletedReceiver().onReceive(this, null);
         }
     }
 }

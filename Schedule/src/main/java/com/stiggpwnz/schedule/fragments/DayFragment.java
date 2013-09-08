@@ -16,10 +16,11 @@ import static com.stiggpwnz.schedule.fragments.MainFragment.getCurrentLesson;
  */
 public class DayFragment extends BaseListFragment {
 
-    public static DayFragment newInstance(String[] lessons) {
+    public static DayFragment newInstance(String[] lessons, int highlightedColor) {
         DayFragment fragment = new DayFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArray("lessons", lessons);
+        bundle.putInt("color", highlightedColor);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -32,7 +33,7 @@ public class DayFragment extends BaseListFragment {
                 getArguments().getStringArray("lessons"),
                 getResources().getStringArray(R.array.times),
                 getLesson(today),
-                getResources().getColor(R.color.yellow)));
+                getArguments().getInt("color")));
     }
 
     public void setLessons(String[] lessons) {
@@ -48,6 +49,11 @@ public class DayFragment extends BaseListFragment {
     public void setToday(boolean today) {
         getArguments().putBoolean("today", today);
         getListAdapter().setLesson(getLesson(today));
+    }
+
+    public void setHighLightedColor(int color) {
+        getListAdapter().setHighlightedColor(color);
+        getArguments().putInt("color", color);
     }
 
     private int getLesson(boolean today) {

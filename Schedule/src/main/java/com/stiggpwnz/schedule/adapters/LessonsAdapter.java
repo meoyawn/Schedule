@@ -13,6 +13,8 @@ import com.stiggpwnz.schedule.R;
 import butterknife.InjectView;
 import butterknife.Views;
 
+import static com.stiggpwnz.schedule.fragments.MainFragment.isLight;
+
 /**
  * Created by Adel Nizamutdinov on 04.09.13
  */
@@ -66,6 +68,11 @@ public class LessonsAdapter extends BaseAdapter {
         }
     }
 
+    public void setHighlightedColor(int highlightedColor) {
+        this.highlightedColor = highlightedColor;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewholder;
@@ -83,6 +90,11 @@ public class LessonsAdapter extends BaseAdapter {
 
         if (position == lesson) {
             convertView.setBackgroundColor(highlightedColor);
+            int color = viewholder.time.getResources().getColor(isLight(highlightedColor) ?
+                    android.R.color.primary_text_light :
+                    android.R.color.primary_text_dark);
+            viewholder.time.setTextColor(color);
+            viewholder.lesson.setTextColor(color);
         } else {
             convertView.setBackgroundDrawable(whiteDrawable);
         }

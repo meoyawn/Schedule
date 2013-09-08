@@ -16,13 +16,15 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
     private String[] titles;
     private DayFragment[] fragments;
     private int day;
+    private int highlightedColor;
 
-    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles, int day) {
+    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles, int day, int highlightedColor) {
         super(fm);
         this.lessons = lessons;
         this.titles = titles;
         this.fragments = new DayFragment[lessons.length];
         this.day = day;
+        this.highlightedColor = highlightedColor;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        DayFragment dayFragment = DayFragment.newInstance(lessons[i]);
+        DayFragment dayFragment = DayFragment.newInstance(lessons[i], highlightedColor);
         if (i == day) {
             dayFragment.getArguments().putBoolean("today", true);
         }
@@ -57,6 +59,15 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
             DayFragment fragment = fragments[i];
             if (fragment != null) {
                 fragment.setToday(i == day);
+            }
+        }
+    }
+
+    public void setHighlightedColor(int highlightedColor) {
+        this.highlightedColor = highlightedColor;
+        for (DayFragment fragment : fragments) {
+            if (fragment != null) {
+                fragment.setHighLightedColor(highlightedColor);
             }
         }
     }

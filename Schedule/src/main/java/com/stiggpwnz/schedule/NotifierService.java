@@ -3,6 +3,7 @@ package com.stiggpwnz.schedule;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -17,7 +18,6 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-import static com.stiggpwnz.schedule.fragments.MainFragment.getCurrentLesson;
 import static com.stiggpwnz.schedule.fragments.MainFragment.getGroups;
 import static com.stiggpwnz.schedule.fragments.MainFragment.parse;
 
@@ -26,53 +26,63 @@ import static com.stiggpwnz.schedule.fragments.MainFragment.parse;
  */
 public class NotifierService extends IntentService {
 
+    public static final int ID = 789456;
+
+    public static Intent newInstance(Context context, int i) {
+        return new Intent(context, NotifierService.class).putExtra("lesson", i);
+    }
+
     @Inject Persistence persistence;
     @Inject Timber timber;
     @Inject DatabaseHelper databaseHelper;
 
     public NotifierService() {
-        super(NotifierService.class.getSimpleName());
+        super("notifier");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         ScheduleApp.getObjectGraph().inject(this);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        timber.d("receiving intent");
 
         FileMetadata metadata = persistence.getLastFileMetadata();
-        // TODO schedule inapp
-        if (metadata != null) {
-
-            int lastSelectedGroup = persistence.getLastSelectedGroup(metadata.path);
-            if (lastSelectedGroup != -1) {
-
-                String[] times = getResources().getStringArray(R.array.times);
-
-                DateTime now = DateTime.now();
-                int day = now.getDayOfWeek() - 1;
-                int lesson = getCurrentLesson(times, getString(R.string.time_separator), now);
-                if (day != 6 && lesson != -1) {
-
+        if (!ScheduleApp.inApp && metadata != null) {
+            DateTime now = DateTime.now();
+            int day = now.getDayOfWeek() - 1;
+            int lesson = intent.getIntExtra("lesson", -1);
+            if (day != 6 && lesson != -1) {
+                // TODO check favourites
+                int lastSelectedGroup = persistence.getLastSelectedGroup(metadata.path);
+                if (lastSelectedGroup != -1) {
                     try {
+                        timber.d("triggered: getting groups");
                         List<Group> groups = getGroups(this, databaseHelper, metadata);
                         Group group = groups.get(lastSelectedGroup);
                         boolean evenWeek = now.getWeekOfWeekyear() % 2 == 1;
                         String[][] lessons = parse(this, metadata, group.column, evenWeek);
                         String current = lessons[day][lesson];
+                        timber.d("got lesson: %s", current);
 
-                        if (!TextUtils.isEmpty(current)) {
-                            notificationManager.notify(NotifierService.class.hashCode(),
-                                    new NotificationCompat.Builder(this)
-                                            .setAutoCancel(true)
-                                            .setTicker(group.name + ' ' + times[lesson] + ' ' + current)
-                                            .setSmallIcon(R.drawable.ic_launcher)
-                                            .setContentTitle(group.name)
-                                            .setContentInfo(times[lesson])
-                                            .setContentText(current)
-                                            .setStyle(new NotificationCompat.BigTextStyle().bigText(current).setSummaryText(""))
-                                            .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0))
-                                            .setWhen(0)
-                                            .build());
+                        if (!TextUtils.isEmpty(current.trim())) {
+                            String[] times = getResources().getStringArray(R.array.times);
+
+                            notificationManager.notify(ID, new NotificationCompat.Builder(this)
+                                    .setAutoCancel(true)
+                                    .setTicker(group.name + ' ' + times[lesson] + ' ' + current)
+                                    .setSmallIcon(R.drawable.ic_launcher)
+                                    .setContentTitle(group.name)
+                                    .setContentInfo(times[lesson])
+                                    .setContentText(current)
+                                    .setStyle(new NotificationCompat.BigTextStyle().bigText(current).setSummaryText(""))
+                                    .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0))
+                                    .setWhen(0)
+                                    .build());
                             return;
                         }
                     } catch (Exception e) {
@@ -80,11 +90,13 @@ public class NotifierService extends IntentService {
                     }
                 }
                 timber.d("hiding notification");
-                notificationManager.cancel(NotifierService.class.hashCode());
+                notificationManager.cancel(ID);
             }
         }
+    }
 
-        timber.d("showing no settings notification");
-        // TODO show
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

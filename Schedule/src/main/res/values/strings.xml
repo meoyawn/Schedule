@@ -32,6 +32,10 @@
     <string name="error_downloading_faculty_file">Error downloading your faculty file</string>
     <string name="unable_to_parse_lessons">Unable to parse lessons</string>
     <string name="time_separator">–</string>
+    <string name="favourite">Favourite</string>
+    <string name="unfavourite">Unfavourite</string>
+    <string name="actionbar_color">Actionbar color</string>
+    <string name="tab_color">Tab color</string>
 
 
 </resources>

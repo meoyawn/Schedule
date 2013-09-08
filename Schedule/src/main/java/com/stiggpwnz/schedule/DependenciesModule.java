@@ -19,7 +19,12 @@ import timber.log.Timber;
 /**
  * Created by stiggpwnz on 30.08.13
  */
-@Module(injects = {MainActivity.class, MainFragment.class, DayFragment.class, FacultiesFragment.class, NotifierService.class})
+@Module(injects = {MainActivity.class,
+        MainFragment.class,
+        DayFragment.class,
+        FacultiesFragment.class,
+        NotifierService.class,
+        BootCompletedReceiver.class})
 public class DependenciesModule {
 
     private final Context context;
@@ -31,7 +36,7 @@ public class DependenciesModule {
     @Provides
     @Singleton
     public Persistence providePersistance() {
-        return new Persistence(PreferenceManager.getDefaultSharedPreferences(context));
+        return new Persistence(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     @Provides

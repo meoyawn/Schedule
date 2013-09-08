@@ -2,9 +2,18 @@
 
     <item
         android:id="@+id/action_favourite"
-        android:title="Favourite"
+        android:title="@string/favourite"
         android:icon="@drawable/ic_action_favourite"
         android:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_actionbar_color"
+        android:title="@string/actionbar_color"
+        android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_tabs_color"
+        android:title="@string/tab_color"
+        android:showAsAction="never"/>
 
     <item
         android:id="@+id/action_settings"

@@ -23,8 +23,9 @@ public class GroupsAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
     List<Group> groups;
+    boolean light;
 
-    public GroupsAdapter(Context context, List<Group> groups) {
+    public GroupsAdapter(Context context, List<Group> groups, boolean light) {
         this.inflater = LayoutInflater.from(context);
         this.groups = groups;
     }
@@ -44,7 +45,17 @@ public class GroupsAdapter extends BaseAdapter {
         return position;
     }
 
-    static class ViewHolder {
+    public void setLight(boolean light) {
+        this.light = light;
+        notifyDataSetChanged();
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+        notifyDataSetChanged();
+    }
+
+    class ViewHolder {
 
         @InjectView(R.id.imgFavIcon) ImageView favIcon;
         @InjectView(android.R.id.text1) TextView text1;
@@ -56,6 +67,7 @@ public class GroupsAdapter extends BaseAdapter {
         void setGroup(Group group) {
             favIcon.setImageResource(group.isFavourite ? R.drawable.ic_action_favourite : R.drawable.ic_action_unfavourite);
             text1.setText(group.name);
+            text1.setTextColor(text1.getResources().getColor(light ? android.R.color.primary_text_light : android.R.color.primary_text_dark));
         }
     }
 
