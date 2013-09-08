@@ -15,7 +15,7 @@ dependencies {
     compile 'net.sf.opencsv:opencsv:+'
     compile 'com.koushikdutta.ion:ion:+'
     compile 'com.jakewharton.timber:timber:+'
-    compile 'com.netflix.rxjava:rxjava-android:+'
+    compile 'com.netflix.rxjava:rxjava-android:0.11+'
     compile 'joda-time:joda-time:+'
     compile 'com.j256.ormlite:ormlite-android:+'
 }

@@ -50,6 +50,7 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
     protected void onViewCreated(Bundle savedInstanceState) {
         if (fileMetadatas != null) {
             setAdapter();
+            setContentShownNoAnimation(true);
         }
     }
 

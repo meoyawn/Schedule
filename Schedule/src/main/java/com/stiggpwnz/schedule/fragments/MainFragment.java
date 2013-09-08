@@ -122,9 +122,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
             case R.id.action_actionbar_color:
                 ColorPickerDialog colorPickerDialog = ColorPickerDialog.newInstance(R.string.actionbar_color,
-                        getResources().getIntArray(R.array.colors_main),
-                        persistence.getMainColor(), 3,
-                        ColorPickerDialog.SIZE_SMALL);
+                        getResources().getIntArray(R.array.colors),
+                        persistence.getMainColor(), 4,
+                        isLarge() ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
                 colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 
                     @Override
@@ -140,9 +140,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
             case R.id.action_tabs_color:
                 ColorPickerDialog colorPickerDialogSecondary = ColorPickerDialog.newInstance(R.string.tab_color,
-                        getResources().getIntArray(R.array.colors_secondary),
+                        getResources().getIntArray(R.array.colors),
                         persistence.getSecondaryColor(), 4,
-                        ColorPickerDialog.SIZE_SMALL);
+                        isLarge() ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
                 colorPickerDialogSecondary.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 
                     @Override
@@ -409,16 +409,6 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         if (adapter != null) {
             DateTime dateTime = DateTime.now();
             int day = dateTime.getDayOfWeek() - 1;
-            int hour = dateTime.getHourOfDay();
-            if (day == 6) {
-                day = 0;
-            } else if (hour > 19) {
-                if (day == 5) {
-                    day = 0;
-                } else {
-                    day++;
-                }
-            }
             adapter.setDay(day);
         }
     }
@@ -429,8 +419,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
         DateTime dateTime = DateTime.now();
         boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
-        int day = dateTime.getDayOfWeek() - 1;
+        int actialDay = dateTime.getDayOfWeek() - 1;
         int hour = dateTime.getHourOfDay();
+        int day = actialDay;
         if (day == 6) {
             day = 0;
             evenWeek = !evenWeek;
@@ -442,13 +433,13 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             }
         }
 
-        loadLessons(i, evenWeek, day);
+        loadLessons(i, evenWeek, actialDay, day);
         persistence.setLastSelectedGroup(getMetadata().path, i);
 
         return true;
     }
 
-    private void loadLessons(final int i, final boolean evenWeek, final int day) {
+    private void loadLessons(final int i, final boolean evenWeek, final int actualday, final int day) {
         setContentShown(false);
         Observable.create(new Func1<Observer<String[][]>, Subscription>() {
 
@@ -485,7 +476,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                             pager.setAdapter(new DaysPagerAdapter(getChildFragmentManager(),
                                     lessons,
                                     getResources().getStringArray(R.array.days),
-                                    day,
+                                    actualday,
                                     persistence.getMainColor()));
                             tabs.setViewPager(pager);
                             pager.setCurrentItem(day, false);

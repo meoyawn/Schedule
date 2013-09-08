@@ -58,12 +58,21 @@ public abstract class BaseProgressFragment extends SherlockProgressFragment {
         super.onActivityCreated(savedInstanceState);
         onCreateView(savedInstanceState);
         Views.inject(this, getView());
-        setContentShownNoAnimation(true);
         onViewCreated(savedInstanceState);
     }
 
     protected boolean isInPortrait() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    protected boolean isLarge() {
+        return isLayoutSizeAtLeast(getResources().getConfiguration().screenLayout, Configuration.SCREENLAYOUT_SIZE_LARGE);
+    }
+
+    static boolean isLayoutSizeAtLeast(int screenLayout, int size) {
+        int cur = screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        if (cur == Configuration.SCREENLAYOUT_SIZE_UNDEFINED) return false;
+        return cur >= size;
     }
 
     protected abstract void onCreateView(Bundle savedInstanceState);

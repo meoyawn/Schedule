@@ -13,8 +13,6 @@ import com.stiggpwnz.schedule.R;
 import butterknife.InjectView;
 import butterknife.Views;
 
-import static com.stiggpwnz.schedule.fragments.MainFragment.isLight;
-
 /**
  * Created by Adel Nizamutdinov on 04.09.13
  */
@@ -30,12 +28,17 @@ public class LessonsAdapter extends BaseAdapter {
 
     private int lesson;
 
+    private int darkTextColor;
+    private int lightTextColor;
+
     public LessonsAdapter(Context context, String[] lessons, String[] times, int lesson, int highlightedColor) {
         this.inflater = LayoutInflater.from(context);
         this.times = times;
         this.highlightedColor = highlightedColor;
         this.lessons = lessons;
         this.lesson = lesson;
+        this.darkTextColor = context.getResources().getColor(android.R.color.primary_text_light);
+        this.lightTextColor = context.getResources().getColor(android.R.color.primary_text_dark);
     }
 
     public void setLessons(String[] lessons) {
@@ -90,13 +93,12 @@ public class LessonsAdapter extends BaseAdapter {
 
         if (position == lesson) {
             convertView.setBackgroundColor(highlightedColor);
-            int color = viewholder.time.getResources().getColor(isLight(highlightedColor) ?
-                    android.R.color.primary_text_light :
-                    android.R.color.primary_text_dark);
-            viewholder.time.setTextColor(color);
-            viewholder.lesson.setTextColor(color);
+            viewholder.time.setTextColor(lightTextColor);
+            viewholder.lesson.setTextColor(lightTextColor);
         } else {
             convertView.setBackgroundDrawable(whiteDrawable);
+            viewholder.time.setTextColor(darkTextColor);
+            viewholder.lesson.setTextColor(darkTextColor);
         }
 
         return convertView;

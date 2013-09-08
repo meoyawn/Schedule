@@ -34,22 +34,7 @@
     <color name="yellow_light_icon">#F3EAB3</color>
 
 
-    <array name="colors_main">
-        <item>@color/yellow_light_icon</item>
-        <item>@color/blue</item>
-        <item>@color/purple</item>
-        <item>@color/green</item>
-        <item>@color/orange</item>
-        <item>@color/red</item>
-        <item>@color/green_light_icon</item>
-        <item>@color/blue_light</item>
-        <item>@color/purple_light</item>
-        <item>@color/green_light</item>
-        <item>@color/orange_light</item>
-        <item>@color/red_light</item>
-    </array>
-
-    <array name="colors_secondary">
+    <array name="colors">
         <item>@color/yellow_light_icon</item>
         <item>@color/blue</item>
         <item>@color/purple</item>
