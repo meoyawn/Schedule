@@ -84,6 +84,6 @@ public class Persistence {
     }
 
     public boolean shouldNotify() {
-        return prefs.getBoolean("should notify", true);
+        return prefs.getBoolean(context.getString(R.string.should_notify), true);
     }
 }

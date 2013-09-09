@@ -1,5 +1,5 @@
 #
-# generated on 2013/09/07 08:24:07
+# generated on 2013/09/09 09:54:11
 #
 # --table-start--
 dataClass=com.stiggpwnz.schedule.Group
@@ -14,6 +14,23 @@ fieldName=column
 # --field-end--
 # --field-start--
 fieldName=isFavourite
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.stiggpwnz.schedule.Lesson
+tableName=lesson
+# --table-fields-start--
+# --field-start--
+fieldName=id
+id=true
+# --field-end--
+# --field-start--
+fieldName=odd
+# --field-end--
+# --field-start--
+fieldName=even
 # --field-end--
 # --table-fields-end--
 # --table-end--

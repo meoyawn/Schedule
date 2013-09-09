@@ -18,9 +18,9 @@ import javax.inject.Singleton;
 @Singleton
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    public static final Class[] CLASSES = new Class[]{Group.class};
+    public static final Class[] CLASSES = new Class[]{Group.class, Lesson.class};
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     @Inject
     public DatabaseHelper(Context context) {

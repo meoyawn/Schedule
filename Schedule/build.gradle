@@ -6,6 +6,8 @@ dependencies {
     compile project(':SherlockNavigationDrawer')
     compile project(':colorpicker')
 
+    compile fileTree(dir: 'libs', include: '*.jar')
+
     compile 'com.android.support:support-v4:+'
     compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
     compile 'com.jakewharton:butterknife:+'
@@ -28,4 +30,8 @@ android {
         minSdkVersion 8
         targetSdkVersion 18
     }
+}
+
+tasks.withType(Compile) {
+    options.encoding = "UTF-8"
 }

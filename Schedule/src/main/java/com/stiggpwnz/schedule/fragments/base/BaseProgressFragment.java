@@ -30,6 +30,8 @@ public abstract class BaseProgressFragment extends SherlockProgressFragment {
     @InjectView(R.id.textErrorMessage) TextView errorMessage;
     @InjectView(R.id.buttonRetry) protected Button retryButton;
 
+    boolean isEmpty;
+
     @OnClick(R.id.buttonRetry)
     void retry() {
         onRetryClick();
@@ -59,6 +61,10 @@ public abstract class BaseProgressFragment extends SherlockProgressFragment {
         onCreateView(savedInstanceState);
         Views.inject(this, getView());
         onViewCreated(savedInstanceState);
+        if (isEmpty) {
+            setContentEmpty(true);
+            setContentShownNoAnimation(true);
+        }
     }
 
     protected boolean isInPortrait() {
@@ -93,6 +99,9 @@ public abstract class BaseProgressFragment extends SherlockProgressFragment {
 
     @Override
     public void onDestroyView() {
+        if (isContentEmpty()) {
+            isEmpty = true;
+        }
         Views.reset(this);
         super.onDestroyView();
     }

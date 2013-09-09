@@ -25,10 +25,14 @@ public class FileMetadata implements Serializable {
     }
 
     public File getFile(Context context) {
-        return new File(Utils.getFilesDir(context), path.substring(1));
+        return new File(Utils.getFilesDir(context), getFileName());
     }
 
     public String getUrl() {
         return MainFragment.DROPBOX + path;
+    }
+
+    public String getFileName() {
+        return path.substring(1);
     }
 }

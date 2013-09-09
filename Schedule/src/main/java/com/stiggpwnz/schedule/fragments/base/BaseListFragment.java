@@ -3,6 +3,7 @@ package com.stiggpwnz.schedule.fragments.base;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.stiggpwnz.schedule.DatabaseHelper;
 import com.stiggpwnz.schedule.MultiThreadedBus;
 import com.stiggpwnz.schedule.Persistence;
 import com.stiggpwnz.schedule.ScheduleApp;
@@ -16,6 +17,7 @@ public class BaseListFragment extends SherlockListFragment {
     @Inject protected MultiThreadedBus bus;
     @Inject protected Timber timber;
     @Inject protected Persistence persistence;
+    @Inject protected DatabaseHelper databaseHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

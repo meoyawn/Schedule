@@ -7,16 +7,14 @@
               android:paddingLeft="5dp">
 
     <ImageView
+        android:contentDescription="@string/favourite"
         android:id="@+id/imgFavIcon"
         android:src="@drawable/ic_action_favourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@android:id/text1"
-        style="?attr/spinnerDropDownItemStyle"
-        android:singleLine="true"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/dropdownListPreferredItemHeight"
-        android:ellipsize="marquee"/>
+    <include
+        layout="@layout/sherlock_spinner_dropdown_item"
+        android:layout_height="48dp"
+        android:layout_width="match_parent"/>
 </LinearLayout>

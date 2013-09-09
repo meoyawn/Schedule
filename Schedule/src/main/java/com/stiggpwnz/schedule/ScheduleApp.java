@@ -1,7 +1,8 @@
 package com.stiggpwnz.schedule;
 
 import android.app.Application;
-import android.app.PendingIntent;
+
+import com.crittercism.app.Crittercism;
 
 import dagger.ObjectGraph;
 
@@ -22,8 +23,7 @@ public class ScheduleApp extends Application {
     public void onCreate() {
         objectGraph = ObjectGraph.create(new DependenciesModule(this));
         super.onCreate();
-        if (PendingIntent.getService(this, 0, NotifierService.newInstance(this, 0), PendingIntent.FLAG_NO_CREATE) == null) {
-            new BootCompletedReceiver().onReceive(this, null);
-        }
+        Crittercism.initialize(this, "522e37d3a7928a7c05000003");
+        new BootCompletedReceiver().onReceive(this, null);
     }
 }

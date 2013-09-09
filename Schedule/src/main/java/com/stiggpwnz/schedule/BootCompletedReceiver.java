@@ -23,12 +23,16 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Inject Persistence persistence;
     @Inject Timber timber;
 
+    static boolean shouldForceNotify(Context context, Intent intent) {
+        return intent != null && intent.getBooleanExtra(context.getString(R.string.should_notify), false);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         ScheduleApp.getObjectGraph().inject(this);
 
         timber.d("starting receiver");
-        if (!persistence.shouldNotify()) {
+        if (!persistence.shouldNotify() && !shouldForceNotify(context, intent)) {
             return;
         }
 

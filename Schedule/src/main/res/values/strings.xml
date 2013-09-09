@@ -19,13 +19,16 @@
         <item>17.40–19.00</item>
     </string-array>
 
+    <string name="even_week">ч/н</string>
+    <string name="odd_week">н/н</string>
+    <string name="should_notify">should notify</string>
+
+
     <string name="app_name">Schedule</string>
     <string name="settings">Settings</string>
     <string name="opened">Opened</string>
     <string name="closed">Closed</string>
     <string name="faculties">Faculties</string>
-    <string name="even_week">ч/н</string>
-    <string name="odd_week">н/н</string>
     <string name="retry">Retry</string>
     <string name="network_error">Unable to connect</string>
     <string name="choose_your_faculty">Please choose your faculty</string>
@@ -36,6 +39,12 @@
     <string name="unfavourite">Unfavourite</string>
     <string name="actionbar_color">Actionbar color</string>
     <string name="tab_color">Tab color</string>
+    <string name="parity">Parity</string>
+    <string name="enable_notifications">Enable notifications</string>
+    <string name="notifications_summary">Show lesson notification before each lesson</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
 
 
 </resources>

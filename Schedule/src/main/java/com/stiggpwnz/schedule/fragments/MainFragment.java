@@ -1,6 +1,7 @@
 package com.stiggpwnz.schedule.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,7 +20,9 @@ import com.koushikdutta.ion.Ion;
 import com.stiggpwnz.schedule.DatabaseHelper;
 import com.stiggpwnz.schedule.FileMetadata;
 import com.stiggpwnz.schedule.Group;
+import com.stiggpwnz.schedule.Lesson;
 import com.stiggpwnz.schedule.R;
+import com.stiggpwnz.schedule.activities.PreferenceActivity;
 import com.stiggpwnz.schedule.adapters.DaysPagerAdapter;
 import com.stiggpwnz.schedule.adapters.GroupsAdapter;
 import com.stiggpwnz.schedule.fragments.base.RetainedProgressFragment;
@@ -130,8 +133,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                     @Override
                     public void onColorSelected(int color) {
                         setActionBarColor(color);
-                        tabs.setIndicatorColor(color);
-                        getPagerAdapter().setHighlightedColor(color);
+                        if (getPagerAdapter() != null) {
+                            getPagerAdapter().setHighlightedColor(color);
+                        }
                         persistence.setMainColor(color);
                     }
                 });
@@ -155,7 +159,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                 return true;
 
             case R.id.action_settings:
-
+                startActivity(new Intent(getActivity(), PreferenceActivity.class));
                 return true;
 
             default:
@@ -224,6 +228,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        tabs.setIndicatorColor(color);
     }
 
     public static boolean isLight(int color) {
@@ -234,7 +239,8 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
     }
 
     void setTabsBackGroundColor(int color) {
-        tabs.setBackgroundColor(color);
+        View parent = (View) tabs.getParent();
+        parent.setBackgroundColor(color);
         boolean light = isLight(color);
         tabs.setTextColorResource(light ? android.R.color.primary_text_light : android.R.color.primary_text_dark);
     }
@@ -242,8 +248,6 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         setActionBarColor(persistence.getMainColor());
-        tabs.setIndicatorColor(persistence.getMainColor());
-
         setTabsBackGroundColor(persistence.getSecondaryColor());
 
         if (groups != null) {
@@ -267,6 +271,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                 setContentShown(false);
                 groupsListObservable = Observable.from(Ion.with(getActivity(), metadata.getUrl())
                         .write(file))
+                        .observeOn(Schedulers.immediate())
                         .flatMap(new Func1<File, Observable<List<Group>>>() {
 
                             @Override
@@ -281,8 +286,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         } else {
             setEmptyText(R.string.choose_your_faculty);
             retryButton.setVisibility(View.GONE);
-            setContentEmpty(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
+            setContentEmpty(true);
+            setContentShownNoAnimation(true);
         }
     }
 
@@ -356,7 +362,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         return new CSVReader(new FileReader(file), ';');
     }
 
-    public static String[][] parse(Context context, FileMetadata metadata, int column, boolean evenWeek) throws IOException {
+    public static Lesson[][] parse(Context context, DatabaseHelper databaseHelper, FileMetadata metadata, int column) throws IOException, SQLException {
         CSVReader reader = getCsvReader(metadata.getFile(context));
         String[] nextLine;
         for (int i = 0; i < 2; i++) {
@@ -365,27 +371,19 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
         int day = 0;
         int lesson = 0;
-        String[][] result = new String[6][7];
+        Lesson[][] result = new Lesson[6][7];
         boolean firstLine = true;
-
-        String oddWeekPrefix = context.getString(R.string.odd_week);
-        String evenWeekPrefix = context.getString(R.string.even_week);
 
         while ((nextLine = reader.readNext()) != null) {
             if (!TextUtils.isEmpty(nextLine[0])) {
                 String value = nextLine[column];
-                if (evenWeek) {
-                    if (value.contains(evenWeekPrefix)) {
-                        result[day][lesson] = value.replace(evenWeekPrefix, "");
-                    } else if (!value.contains(oddWeekPrefix)) {
-                        result[day][lesson] = value;
-                    }
-                } else {
-                    if (value.contains(oddWeekPrefix)) {
-                        result[day][lesson] = value.replace(oddWeekPrefix, "");
-                    } else if (!value.contains(evenWeekPrefix)) {
-                        result[day][lesson] = value;
-                    }
+                if (firstLine) {
+                    String lessonId = String.format("%s:%d:%d:%d", metadata.getFileName(), column, day, lesson);
+                    result[day][lesson] = new Lesson(lessonId);
+                    databaseHelper.getDao(Lesson.class).refresh(result[day][lesson]);
+                }
+                if (!result[day][lesson].isFromDb()) {
+                    result[day][lesson].set(value);
                 }
                 if (!firstLine) {
                     lesson++;
@@ -409,7 +407,8 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         if (adapter != null) {
             DateTime dateTime = DateTime.now();
             int day = dateTime.getDayOfWeek() - 1;
-            adapter.setDay(day);
+            boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
+            adapter.setDay(day,evenWeek);
         }
     }
 
@@ -418,13 +417,12 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         refreshFavouriteIcon(i);
 
         DateTime dateTime = DateTime.now();
-        boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
-        int actialDay = dateTime.getDayOfWeek() - 1;
+        int actualDay = dateTime.getDayOfWeek() - 1;
         int hour = dateTime.getHourOfDay();
-        int day = actialDay;
+        int day = actualDay;
+        boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
         if (day == 6) {
             day = 0;
-            evenWeek = !evenWeek;
         } else if (hour > 19) {
             if (day == 5) {
                 day = 0;
@@ -433,20 +431,20 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             }
         }
 
-        loadLessons(i, evenWeek, actialDay, day);
+        loadLessons(i, actualDay, day, evenWeek);
         persistence.setLastSelectedGroup(getMetadata().path, i);
 
         return true;
     }
 
-    private void loadLessons(final int i, final boolean evenWeek, final int actualday, final int day) {
+    private void loadLessons(final int i, final int actualDay, final int day, final boolean evenWeek) {
         setContentShown(false);
-        Observable.create(new Func1<Observer<String[][]>, Subscription>() {
+        Observable.create(new Func1<Observer<Lesson[][]>, Subscription>() {
 
             @Override
-            public Subscription call(Observer<String[][]> observer) {
+            public Subscription call(Observer<Lesson[][]> observer) {
                 try {
-                    String[][] lessons = parse(getActivity(), getMetadata(), groups.get(i).column, evenWeek);
+                    Lesson[][] lessons = parse(getActivity(), databaseHelper, getMetadata(), groups.get(i).column);
                     observer.onNext(lessons);
                     observer.onCompleted();
                 } catch (Exception e) {
@@ -456,7 +454,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             }
         }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String[][]>() {
+                .subscribe(new Observer<Lesson[][]>() {
 
                     @Override
                     public void onCompleted() {
@@ -471,13 +469,14 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                     }
 
                     @Override
-                    public void onNext(String[][] lessons) {
+                    public void onNext(Lesson[][] lessons) {
                         if (pager.getAdapter() == null) {
                             pager.setAdapter(new DaysPagerAdapter(getChildFragmentManager(),
                                     lessons,
                                     getResources().getStringArray(R.array.days),
-                                    actualday,
-                                    persistence.getMainColor()));
+                                    actualDay,
+                                    persistence.getMainColor(),
+                                    evenWeek));
                             tabs.setViewPager(pager);
                             pager.setCurrentItem(day, false);
                         } else {
@@ -516,9 +515,8 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
                     @Override
                     public void onError(Throwable throwable) {
-                        timber.e(throwable, "db problem");
                         if (favouriteMenuItem != null) {
-                            favouriteMenuItem.setIcon(R.drawable.ic_action_favourite);
+                            favouriteMenuItem.setIcon(R.drawable.ic_action_unfavourite);
                             favouriteMenuItem.setTitle(R.string.favourite);
                         }
                     }
@@ -526,7 +524,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                     @Override
                     public void onNext(Group group) {
                         if (favouriteMenuItem != null) {
-                            favouriteMenuItem.setIcon(group.isFavourite ? R.drawable.ic_action_unfavourite : R.drawable.ic_action_favourite);
+                            favouriteMenuItem.setIcon(!group.isFavourite ? R.drawable.ic_action_unfavourite : R.drawable.ic_action_favourite);
                             favouriteMenuItem.setTitle(group.isFavourite ? R.string.unfavourite : R.string.favourite);
                         }
                     }

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.stiggpwnz.schedule.Lesson;
 import com.stiggpwnz.schedule.fragments.DayFragment;
 
 /**
@@ -12,19 +13,21 @@ import com.stiggpwnz.schedule.fragments.DayFragment;
  */
 public class DaysPagerAdapter extends FragmentPagerAdapter {
 
-    private String[][] lessons;
+    private Lesson[][] lessons;
     private String[] titles;
     private DayFragment[] fragments;
     private int day;
     private int highlightedColor;
+    private boolean evenWeek;
 
-    public DaysPagerAdapter(FragmentManager fm, String[][] lessons, String[] titles, int day, int highlightedColor) {
+    public DaysPagerAdapter(FragmentManager fm, Lesson[][] lessons, String[] titles, int day, int highlightedColor, boolean evenWeek) {
         super(fm);
         this.lessons = lessons;
         this.titles = titles;
         this.fragments = new DayFragment[lessons.length];
         this.day = day;
         this.highlightedColor = highlightedColor;
+        this.evenWeek = evenWeek;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        DayFragment dayFragment = DayFragment.newInstance(lessons[i], highlightedColor);
+        DayFragment dayFragment = DayFragment.newInstance(lessons[i], highlightedColor, evenWeek);
         if (i == day) {
             dayFragment.getArguments().putBoolean("today", true);
         }
@@ -53,12 +56,13 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
         return lessons.length;
     }
 
-    public void setDay(int day) {
+    public void setDay(int day, boolean evenWeek) {
         this.day = day;
         for (int i = 0; i < getCount(); i++) {
             DayFragment fragment = fragments[i];
             if (fragment != null) {
                 fragment.setToday(i == day);
+                fragment.setEvenWeek(evenWeek);
             }
         }
     }
@@ -72,7 +76,7 @@ public class DaysPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void setLessons(String[][] lessons) {
+    public void setLessons(Lesson[][] lessons) {
         this.lessons = lessons;
         for (int i = 0; i < getCount(); i++) {
             if (fragments[i] != null) {

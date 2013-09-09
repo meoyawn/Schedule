@@ -45,11 +45,6 @@ public class GroupsAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setLight(boolean light) {
-        this.light = light;
-        notifyDataSetChanged();
-    }
-
     public void setGroups(List<Group> groups) {
         this.groups = groups;
         notifyDataSetChanged();
@@ -74,7 +69,7 @@ public class GroupsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.sherlock_spinner_item, parent, false);
+            convertView = inflater.inflate(R.layout.group, parent, false);
             convertView.setTag(new ViewHolder(convertView));
         }
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();

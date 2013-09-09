@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.stiggpwnz.schedule.Lesson;
 import com.stiggpwnz.schedule.R;
 
 import butterknife.InjectView;
@@ -21,27 +22,30 @@ public class LessonsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
 
     private String[] times;
-    private String[] lessons;
+    private Lesson[] lessons;
 
     private int highlightedColor;
     private Drawable whiteDrawable;
 
-    private int lesson;
+    private int currentLesson;
 
     private int darkTextColor;
     private int lightTextColor;
 
-    public LessonsAdapter(Context context, String[] lessons, String[] times, int lesson, int highlightedColor) {
+    private boolean evenWeek;
+
+    public LessonsAdapter(Context context, Lesson[] lessons, String[] times, int lesson, int highlightedColor, boolean evenWeek) {
         this.inflater = LayoutInflater.from(context);
         this.times = times;
         this.highlightedColor = highlightedColor;
         this.lessons = lessons;
-        this.lesson = lesson;
+        this.currentLesson = lesson;
         this.darkTextColor = context.getResources().getColor(android.R.color.primary_text_light);
         this.lightTextColor = context.getResources().getColor(android.R.color.primary_text_dark);
+        this.evenWeek = evenWeek;
     }
 
-    public void setLessons(String[] lessons) {
+    public void setLessons(Lesson[] lessons) {
         this.lessons = lessons;
         notifyDataSetChanged();
     }
@@ -52,7 +56,7 @@ public class LessonsAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public Lesson getItem(int position) {
         return lessons[position];
     }
 
@@ -61,18 +65,43 @@ public class LessonsAdapter extends BaseAdapter {
         return position;
     }
 
-    static class ViewHolder {
+    class ViewHolder {
 
         @InjectView(R.id.time) TextView time;
-        @InjectView(R.id.lesson) TextView lesson;
+        @InjectView(R.id.lesson) TextView textLesson;
 
-        public ViewHolder(View convertView) {
+        ViewHolder(View convertView) {
             Views.inject(this, convertView);
+        }
+
+        void draw(View convertView, int position) {
+            time.setText(times[position]);
+            textLesson.setText(lessons[position].get(evenWeek));
+
+            if (position == currentLesson) {
+                convertView.setBackgroundColor(highlightedColor);
+                time.setTextColor(lightTextColor);
+                textLesson.setTextColor(lightTextColor);
+            } else {
+                convertView.setBackgroundDrawable(whiteDrawable);
+                time.setTextColor(darkTextColor);
+                textLesson.setTextColor(darkTextColor);
+            }
         }
     }
 
     public void setHighlightedColor(int highlightedColor) {
         this.highlightedColor = highlightedColor;
+        notifyDataSetChanged();
+    }
+
+    public void setEvenWeek(boolean evenWeek) {
+        this.evenWeek = evenWeek;
+        notifyDataSetChanged();
+    }
+
+    public void setLesson(int position, Lesson lesson) {
+        lessons[position] = lesson;
         notifyDataSetChanged();
     }
 
@@ -88,24 +117,13 @@ public class LessonsAdapter extends BaseAdapter {
         }
 
         viewholder = (ViewHolder) convertView.getTag();
-        viewholder.time.setText(times[position]);
-        viewholder.lesson.setText(lessons[position]);
-
-        if (position == lesson) {
-            convertView.setBackgroundColor(highlightedColor);
-            viewholder.time.setTextColor(lightTextColor);
-            viewholder.lesson.setTextColor(lightTextColor);
-        } else {
-            convertView.setBackgroundDrawable(whiteDrawable);
-            viewholder.time.setTextColor(darkTextColor);
-            viewholder.lesson.setTextColor(darkTextColor);
-        }
+        viewholder.draw(convertView, position);
 
         return convertView;
     }
 
     public void setLesson(int lesson) {
-        this.lesson = lesson;
+        this.currentLesson = lesson;
         notifyDataSetChanged();
     }
 }

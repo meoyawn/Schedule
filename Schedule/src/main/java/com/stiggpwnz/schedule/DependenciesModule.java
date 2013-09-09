@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 
 import com.stiggpwnz.schedule.activities.MainActivity;
+import com.stiggpwnz.schedule.activities.PreferenceActivity;
 import com.stiggpwnz.schedule.fragments.DayFragment;
 import com.stiggpwnz.schedule.fragments.FacultiesFragment;
 import com.stiggpwnz.schedule.fragments.MainFragment;
@@ -19,12 +20,7 @@ import timber.log.Timber;
 /**
  * Created by stiggpwnz on 30.08.13
  */
-@Module(injects = {MainActivity.class,
-        MainFragment.class,
-        DayFragment.class,
-        FacultiesFragment.class,
-        NotifierService.class,
-        BootCompletedReceiver.class})
+@Module(injects = {MainActivity.class, MainFragment.class, DayFragment.class, FacultiesFragment.class, NotifierService.class, BootCompletedReceiver.class, PreferenceActivity.class})
 public class DependenciesModule {
 
     private final Context context;

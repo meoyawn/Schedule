@@ -65,8 +65,8 @@ public class NotifierService extends IntentService {
                         List<Group> groups = getGroups(this, databaseHelper, metadata);
                         Group group = groups.get(lastSelectedGroup);
                         boolean evenWeek = now.getWeekOfWeekyear() % 2 == 1;
-                        String[][] lessons = parse(this, metadata, group.column, evenWeek);
-                        String current = lessons[day][lesson];
+                        Lesson[][] lessons = parse(this, databaseHelper, metadata, group.column);
+                        String current = lessons[day][lesson].get(evenWeek);
                         timber.d("got lesson: %s", current);
 
                         if (!TextUtils.isEmpty(current.trim())) {
