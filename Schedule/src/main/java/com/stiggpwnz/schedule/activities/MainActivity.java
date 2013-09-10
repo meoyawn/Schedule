@@ -16,6 +16,7 @@ import com.stiggpwnz.schedule.fragments.FacultiesFragment;
 import com.stiggpwnz.schedule.fragments.MainFragment;
 
 import butterknife.InjectView;
+import de.cketti.library.changelog.ChangeLog;
 
 public class MainActivity extends BaseActivity {
 
@@ -65,6 +66,11 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.openDrawer(Gravity.LEFT);
                 drawerToggle.onDrawerOpened(null);
             }
+        }
+
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
         }
     }
 
