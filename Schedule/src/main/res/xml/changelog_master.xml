@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.0.0" versioncode="13">
+        <change>Schedule files are now hosted in cloud</change>
+        <change>Easy access to favourite groups</change>
+        <change>Notifications before each lesson</change>
+        <change>Customizable colors</change>
+    </release>
+    <release version="1.0.0" versioncode="1">
+        <change>First appeared in the Play Store</change>
+    </release>
+</changelog>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.0.0" versioncode="13">
+        <change>Файлы расписаний теперь загружаются из облака</change>
+        <change>Быстрый доступ к избранным группам</change>
+        <change>Уведомления перед началом занятий</change>
+        <change>Настраиваемые цвета</change>
+    </release>
+    <release version="1.0.0" versioncode="1">
+        <change>Появление в Play Store</change>
+    </release>
+</changelog>

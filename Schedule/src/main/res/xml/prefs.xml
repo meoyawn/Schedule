@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Notifications">
+    <PreferenceCategory android:title="@string/notifications">
         <CheckBoxPreference
             android:title="@string/enable_notifications"
             android:summary="@string/notifications_summary"
             android:defaultValue="true"
             android:key="@string/should_notify"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/support">
+        <Preference
+            android:title="@string/changelog"
+            android:key="@string/changelog_key"/>
+        <Preference
+            android:title="@string/contact_with_dev"
+            android:summary="@string/contact_with_dev_summary"
+            android:key="@string/contact_key"/>
+        <Preference
+            android:title="@string/source_code"
+            android:summary="@string/source_code_summary"
+            android:key="@string/source_key"/>
+        <Preference
+            android:title="@string/rate_the_app"
+            android:key="@string/rate_key"/>
     </PreferenceCategory>
 </PreferenceScreen>

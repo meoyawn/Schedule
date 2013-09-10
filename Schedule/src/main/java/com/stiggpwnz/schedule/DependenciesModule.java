@@ -44,7 +44,7 @@ public class DependenciesModule {
     @Provides
     @Singleton
     public Timber provideTimber() {
-        return BuildConfig.DEBUG ? Timber.DEBUG.tag("schedule") : Timber.PROD;
+        return BuildConfig.DEBUG ? Timber.DEBUG : Timber.PROD;
     }
 
     @Provides

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res/com.stiggpwnz.schedule">
 
     <string-array name="days">
         <item>ПН</item>
@@ -17,7 +17,9 @@
     <string name="closed">Меню закрыто</string>
     <string name="faculties">Факультеты</string>
     <string name="retry">Попробовать снова</string>
-    <string name="network_error">Невозможно подключиться. Проверьте ваше интернет соединение, оно понадобится только при первой загрузке</string>
+    <string name="network_error">Невозможно подключиться. Проверьте ваше интернет соединение, оно
+        понадобится только при первой загрузке
+    </string>
     <string name="choose_your_faculty">Выберите ваш факультет</string>
     <string name="error_downloading_faculty_file">Ошибка при загрузке файла факультета</string>
     <string name="unable_to_parse_lessons">Невозможно отпарсить занятия</string>
@@ -31,7 +33,23 @@
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>
     <string name="discard">Отменить</string>
+    <string name="notifications">Уведомления</string>
+    <string name="support">Поддержка</string>
+    <string name="changelog">Список изменений</string>
+    <string name="contact_with_dev">Связаться с разработчиком</string>
+    <string name="contact_with_dev_summary">Решу ваши экзистенциальные проблемы</string>
+    <string name="source_code">Исходный код</string>
+    <string name="source_code_summary">Исходный код приложения на GitHub</string>
+    <string name="rate_the_app">Оценить приложение</string>
+    <string name="changelog_header_version">"Версия "</string>
+    <string name="close">Закрыть</string>
 
+    <string name="changelog_full_title">Список Изменений</string>
+    <string name="changelog_title">Что Нового</string>
+    <string name="changelog_show_full">Больше…</string>
+
+    <string name="changelog_version_format">Версия <xliff:g id="version_name">%s</xliff:g></string>
+    <string name="support_email_subject">Расписание КГУ для Android</string>
 
 
 </resources>

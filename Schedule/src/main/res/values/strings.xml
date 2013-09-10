@@ -19,9 +19,14 @@
         <item>17.40–19.00</item>
     </string-array>
 
+    <string name="time_separator">–</string>
     <string name="even_week">ч/н</string>
     <string name="odd_week">н/н</string>
     <string name="should_notify">should notify</string>
+    <string name="rate_key">rate</string>
+    <string name="contact_key">contact</string>
+    <string name="changelog_key">changelog</string>
+    <string name="source_key">source</string>
 
 
     <string name="app_name">Schedule</string>
@@ -34,7 +39,6 @@
     <string name="choose_your_faculty">Please choose your faculty</string>
     <string name="error_downloading_faculty_file">Error downloading your faculty file</string>
     <string name="unable_to_parse_lessons">Unable to parse lessons</string>
-    <string name="time_separator">–</string>
     <string name="favourite">Favourite</string>
     <string name="unfavourite">Unfavourite</string>
     <string name="actionbar_color">Actionbar color</string>
@@ -45,6 +49,18 @@
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
+    <string name="notifications">Notifications</string>
+
+
+    <string name="support">Support</string>
+    <string name="changelog">Changelog</string>
+    <string name="contact_with_dev">Contact with developer</string>
+    <string name="contact_with_dev_summary">I\'ll solve your existential problems</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_summary">Get the sources from GitHub</string>
+    <string name="rate_the_app">Rate the app</string>
+    <string name="close">Close</string>
+    <string name="support_email_subject">KSU Schedule for Android</string>
 
 
 </resources>
