@@ -9,8 +9,7 @@ Schedule app for my university, parsing *.xls file, highliting current lesson, s
 
 ## TODO:
 
-- Multiple theme support
-- Left slide-out menu with group list
+- Alarm clock before 1st lesson
 - Homescreen widget
 
 Pull requests are much appriciated
