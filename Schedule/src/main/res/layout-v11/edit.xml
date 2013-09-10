@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="8dp">
+              android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/oddContainer"
@@ -18,7 +17,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/odd_week"
-            android:textColor="@android:color/primary_text_dark"
             android:id="@+id/textOdd"
             android:singleLine="true"/>
 
@@ -43,7 +41,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/even_week"
-            android:textColor="@android:color/primary_text_dark"
             android:id="@+id/textEven"
             android:singleLine="true"/>
 
@@ -59,7 +56,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/parity"
-        android:textColor="@android:color/primary_text_dark"
         android:id="@+id/checkBoxParity"
         android:checked="true"/>
 

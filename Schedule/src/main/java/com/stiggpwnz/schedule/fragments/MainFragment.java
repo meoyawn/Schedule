@@ -408,7 +408,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             DateTime dateTime = DateTime.now();
             int day = dateTime.getDayOfWeek() - 1;
             boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
-            adapter.setDay(day,evenWeek);
+            adapter.setDay(day, evenWeek);
         }
     }
 
@@ -463,6 +463,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
                     @Override
                     public void onError(Throwable throwable) {
+                        timber.e(throwable, "parsing lessons");
                         setEmptyText(R.string.unable_to_parse_lessons);
                         setContentEmpty(true);
                         setContentShown(true);

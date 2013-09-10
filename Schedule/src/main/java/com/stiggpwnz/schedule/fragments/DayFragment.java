@@ -43,10 +43,10 @@ import static com.stiggpwnz.schedule.fragments.MainFragment.getCurrentLesson;
  */
 public class DayFragment extends BaseListFragment {
 
-    public static DayFragment newInstance(Lesson[] lessons, int highlightedColor, boolean evenWeek) {
+    public static DayFragment newInstance(String lessons, int highlightedColor, boolean evenWeek) {
         DayFragment fragment = new DayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("lessons", lessons);
+        bundle.putString("lessons", lessons);
         bundle.putInt("color", highlightedColor);
         bundle.putBoolean("editEven week", evenWeek);
         fragment.setArguments(bundle);
@@ -58,7 +58,7 @@ public class DayFragment extends BaseListFragment {
         super.onViewCreated(view, savedInstanceState);
         boolean today = getArguments().getBoolean("today", false);
         setListAdapter(new LessonsAdapter(getActivity(),
-                (Lesson[]) getArguments().getSerializable("lessons"),
+                gson.fromJson(getArguments().getString("lessons"), Lesson[].class),
                 getResources().getStringArray(R.array.times),
                 getLesson(today),
                 getArguments().getInt("color"),
@@ -66,7 +66,7 @@ public class DayFragment extends BaseListFragment {
     }
 
     public void setLessons(Lesson[] lessons) {
-        getArguments().putSerializable("lessons", lessons);
+        getArguments().putString("lessons", gson.toJson(lessons));
         getListAdapter().setLessons(lessons);
     }
 
@@ -222,7 +222,6 @@ public class DayFragment extends BaseListFragment {
                                     observer.onNext(lesson);
                                     observer.onCompleted();
                                 } catch (SQLException e) {
-                                    timber.e(e, "fuck");
                                     observer.onError(e);
                                 }
                                 return Subscriptions.empty();

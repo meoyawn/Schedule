@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.1" versioncode="14">
+        <change>Fixes for &lt; 3.0 Android devices</change>
+    </release>
     <release version="2.0.0" versioncode="13">
         <change>Schedule files are now hosted in cloud</change>
         <change>Easy access to favourite groups</change>
