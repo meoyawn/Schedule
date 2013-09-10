@@ -103,9 +103,11 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
         @Override
         public void onError(Throwable throwable) {
-            setEmptyText(R.string.error_downloading_faculty_file);
-            setContentEmpty(true);
-            setContentShown(true);
+            if (getView() != null) {
+                setEmptyText(R.string.error_downloading_faculty_file);
+                setContentEmpty(true);
+                setContentShown(true);
+            }
         }
 
         @Override
@@ -463,10 +465,11 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
                     @Override
                     public void onError(Throwable throwable) {
-                        timber.e(throwable, "parsing lessons");
-                        setEmptyText(R.string.unable_to_parse_lessons);
-                        setContentEmpty(true);
-                        setContentShown(true);
+                        if (getView() != null) {
+                            setEmptyText(R.string.unable_to_parse_lessons);
+                            setContentEmpty(true);
+                            setContentShown(true);
+                        }
                     }
 
                     @Override

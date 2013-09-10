@@ -33,6 +33,7 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
 
     ListView listView;
     FileMetadata[] fileMetadatas;
+    private Subscription subscription;
 
     @Override
     protected void onRetryClick() {
@@ -72,7 +73,7 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
                         }
                     });
         }
-        observable.subscribeOn(Schedulers.newThread())
+        subscription = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<FileMetadata[]>() {
 
@@ -83,8 +84,10 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
 
                     @Override
                     public void onError(Throwable throwable) {
-                        setContentEmpty(true);
-                        setContentShown(true);
+                        if (getView() != null) {
+                            setContentEmpty(true);
+                            setContentShown(true);
+                        }
                     }
 
                     @Override
