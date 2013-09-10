@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.devspark.progressfragment.SherlockProgressFragment;
+import com.google.gson.Gson;
 import com.stiggpwnz.schedule.DatabaseHelper;
 import com.stiggpwnz.schedule.MultiThreadedBus;
 import com.stiggpwnz.schedule.Persistence;
@@ -26,6 +27,7 @@ public abstract class BaseProgressFragment extends SherlockProgressFragment {
     @Inject protected Timber timber;
     @Inject protected Persistence persistence;
     @Inject protected DatabaseHelper databaseHelper;
+    @Inject protected Gson gson;
 
     @InjectView(R.id.textErrorMessage) TextView errorMessage;
     @InjectView(R.id.buttonRetry) protected Button retryButton;

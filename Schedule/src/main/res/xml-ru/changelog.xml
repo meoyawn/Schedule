@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.2" versioncode="15">
+        <change>Добавлены новые цвета</change>
+        <change>Исправлены падения</change>
+    </release>
     <release version="2.0.1" versioncode="14">
         <change>Исправления ошибок для девайсов под Android &lt; 3.0</change>
     </release>

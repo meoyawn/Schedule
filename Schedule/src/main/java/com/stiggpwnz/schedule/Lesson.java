@@ -3,13 +3,11 @@ package com.stiggpwnz.schedule;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
-
 /**
  * Created by Adel Nizamutdinov on 08.09.13
  */
 @DatabaseTable
-public class Lesson implements Serializable {
+public class Lesson {
 
     private static final String ODD_PREFIX = "н/н";
     private static final String EVEN_PREFIX = "ч/н";

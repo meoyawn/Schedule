@@ -76,7 +76,9 @@ public class LessonsAdapter extends BaseAdapter {
 
         void draw(View convertView, int position) {
             time.setText(times[position]);
-            textLesson.setText(lessons[position].get(evenWeek));
+            if (getItem(position) != null) {
+                textLesson.setText(getItem(position).get(evenWeek));
+            }
 
             if (position == currentLesson) {
                 convertView.setBackgroundColor(highlightedColor);

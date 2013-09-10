@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.stiggpwnz.schedule.DatabaseHelper;
 import com.stiggpwnz.schedule.FileMetadata;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +70,6 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         Bundle args = new Bundle();
         args.putSerializable(METADATA, metadata);
         fragment.setArguments(args);
-        fragment.setHasOptionsMenu(true);
         return fragment;
     }
 
@@ -116,6 +117,92 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             setUpNavigation(MainFragment.this.persistence.getLastSelectedGroup(MainFragment.this.getMetadata().path));
         }
     };
+
+    private void toggleFavourite(final int index) {
+        Observable.create(new Func1<Observer<Integer>, Subscription>() {
+
+            @Override
+            public Subscription call(Observer<Integer> observer) {
+                try {
+                    final Group group = groups.get(index);
+                    group.isFavourite = !group.isFavourite;
+                    databaseHelper.getDao(Group.class).createOrUpdate(group);
+
+                    groups = getGroups(getActivity(), databaseHelper, getMetadata());
+                    int index11 = groups.indexOf(group);
+
+                    observer.onNext(index11);
+                    observer.onCompleted();
+                } catch (Exception e) {
+                    observer.onError(e);
+                }
+                return Subscriptions.empty();
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        setUpNavigation(integer);
+                    }
+                });
+    }
+
+    @Override
+    protected void onRetryClick() {
+        onFirstCreated();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    protected void onCreateView(Bundle savedInstanceState) {
+        setContentView(R.layout.days_pager);
+    }
+
+    @Override
+    protected void onViewCreated(Bundle savedInstanceState) {
+        setActionBarColor(persistence.getMainColor());
+        setTabsBackGroundColor(persistence.getSecondaryColor());
+
+        if (savedInstanceState != null) {
+            Type type = new TypeToken<List<Group>>() {
+            }.getType();
+            groups = gson.fromJson(savedInstanceState.getString("groups"), type);
+        }
+        if (groups != null) {
+            setUpNavigation(persistence.getLastSelectedGroup(getMetadata().path));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Type type = new TypeToken<List<Group>>() {
+        }.getType();
+        outState.putString("groups", gson.toJson(groups, type));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        favouriteMenuItem = menu.findItem(R.id.action_favourite);
+        favouriteMenuItem.setEnabled(false);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -169,63 +256,6 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         }
     }
 
-    private void toggleFavourite(final int index) {
-        Observable.create(new Func1<Observer<Integer>, Subscription>() {
-
-            @Override
-            public Subscription call(Observer<Integer> observer) {
-                try {
-                    final Group group = groups.get(index);
-                    group.isFavourite = !group.isFavourite;
-                    databaseHelper.getDao(Group.class).createOrUpdate(group);
-
-                    groups = getGroups(getActivity(), databaseHelper, getMetadata());
-                    int index11 = groups.indexOf(group);
-
-                    observer.onNext(index11);
-                    observer.onCompleted();
-                } catch (Exception e) {
-                    observer.onError(e);
-                }
-                return Subscriptions.empty();
-            }
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(Integer integer) {
-                        setUpNavigation(integer);
-                    }
-                });
-    }
-
-    @Override
-    protected void onRetryClick() {
-        onFirstCreated();
-    }
-
-    @Override
-    protected void onCreateView(Bundle savedInstanceState) {
-        setContentView(R.layout.days_pager);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        favouriteMenuItem = menu.findItem(R.id.action_favourite);
-        favouriteMenuItem.setEnabled(false);
-    }
-
     void setActionBarColor(int color) {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -245,16 +275,6 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         parent.setBackgroundColor(color);
         boolean light = isLight(color);
         tabs.setTextColorResource(light ? android.R.color.primary_text_light : android.R.color.primary_text_dark);
-    }
-
-    @Override
-    protected void onViewCreated(Bundle savedInstanceState) {
-        setActionBarColor(persistence.getMainColor());
-        setTabsBackGroundColor(persistence.getSecondaryColor());
-
-        if (groups != null) {
-            setUpNavigation(persistence.getLastSelectedGroup(getMetadata().path));
-        }
     }
 
     private ActionBar getSupportActionBar() {
@@ -465,6 +485,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
                     @Override
                     public void onError(Throwable throwable) {
+                        timber.e(throwable, "parsing lessons");
                         if (getView() != null) {
                             setEmptyText(R.string.unable_to_parse_lessons);
                             setContentEmpty(true);
@@ -488,7 +509,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                         }
                         setContentEmpty(false);
                         setContentShown(true);
-                        favouriteMenuItem.setEnabled(true);
+                        if (favouriteMenuItem != null) {
+                            favouriteMenuItem.setEnabled(true);
+                        }
                     }
                 });
     }

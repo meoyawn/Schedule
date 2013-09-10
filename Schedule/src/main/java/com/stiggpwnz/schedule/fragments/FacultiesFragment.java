@@ -49,10 +49,19 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
 
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            fileMetadatas = gson.fromJson(savedInstanceState.getString("metadatas"), FileMetadata[].class);
+        }
         if (fileMetadatas != null) {
             setAdapter();
             setContentShownNoAnimation(true);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("metadatas", gson.toJson(fileMetadatas));
     }
 
     @Override
