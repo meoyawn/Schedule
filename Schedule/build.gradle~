@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 dependencies {
     compile project(':PagerSlidingTabStrip')
-    compile project(':sherlockprogressfragment')
+    compile project(':SherlockProgressFragment')
     compile project(':SherlockNavigationDrawer')
     compile project(':colorpicker')
     compile project(':ChangeLogLibrary')
