@@ -1,6 +1,0 @@
-include ':Schedule'
-include ':PagerSlidingTabStrip'
-include ':Sherlockprogressfragment'
-include ':SherlockNavigationDrawer'
-include ':colorpicker'
-include ':ChangeLogLibrary'
