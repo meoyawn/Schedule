@@ -1,4 +1,5 @@
 apply plugin: 'android'
+apply plugin: 'android-test'
 
 dependencies {
     compile project(':PagerSlidingTabStrip')
@@ -22,6 +23,14 @@ dependencies {
     compile 'joda-time:joda-time:+'
     compile 'com.j256.ormlite:ormlite-android:+'
     compile 'com.dmitriy-tarasov:android-intents:+'
+
+    testCompile 'junit:junit:+'
+    testCompile 'org.robolectric:robolectric:2.1.+'
+    testCompile 'com.squareup:fest-android:+'
+
+    instrumentTestCompile 'junit:junit:+'
+    instrumentTestCompile 'org.robolectric:robolectric:2.1.+'
+    instrumentTestCompile 'com.squareup:fest-android:+'
 }
 
 android {
