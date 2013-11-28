@@ -8,29 +8,23 @@ dependencies {
     compile project(':colorpicker')
     compile project(':ChangeLogLibrary')
 
-    compile fileTree(dir: 'libs', include: '*.jar')
-
     compile 'com.android.support:support-v4:+'
     compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
-    compile 'com.jakewharton:butterknife:+'
+    compile 'com.jakewharton:butterknife:3.+'
     compile 'com.squareup:otto:+'
     compile 'com.squareup.dagger:dagger-compiler:+'
     compile 'com.squareup.dagger:dagger:+'
     compile 'net.sf.opencsv:opencsv:+'
     compile 'com.koushikdutta.ion:ion:+'
-    compile 'com.jakewharton.timber:timber:+'
+    compile 'com.jakewharton.timber:timber:1.+'
     compile 'com.netflix.rxjava:rxjava-android:0.11+'
     compile 'joda-time:joda-time:+'
     compile 'com.j256.ormlite:ormlite-android:+'
     compile 'com.dmitriy-tarasov:android-intents:+'
 
-    testCompile 'junit:junit:+'
-    testCompile 'org.robolectric:robolectric:2.1.+'
-    testCompile 'com.squareup:fest-android:+'
-
-    instrumentTestCompile 'junit:junit:+'
-    instrumentTestCompile 'org.robolectric:robolectric:2.1.+'
-    instrumentTestCompile 'com.squareup:fest-android:+'
+    instrumentTestCompile files('libs/espresso-1.0-SNAPSHOT.jar', 'libs/testrunner-1.0-SNAPSHOT.jar', 'libs/testrunner-runtime-1.0-SNAPSHOT.jar')
+    instrumentTestCompile files('libs/hamcrest-core-1.1.jar', 'libs/hamcrest-library-1.1.jar', 'libs/hamcrest-integration-1.1.jar')
+    instrumentTestCompile 'com.google.guava:guava:+'
 }
 
 android {
@@ -40,6 +34,8 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 18
+
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 }
 

@@ -2,8 +2,6 @@ package com.stiggpwnz.schedule;
 
 import android.app.Application;
 
-import com.crittercism.app.Crittercism;
-
 import dagger.ObjectGraph;
 
 /**
@@ -21,9 +19,8 @@ public class ScheduleApp extends Application {
 
     @Override
     public void onCreate() {
-        objectGraph = ObjectGraph.create(new DependenciesModule(this));
         super.onCreate();
-        Crittercism.initialize(this, "522e37d3a7928a7c05000003");
+        objectGraph = ObjectGraph.create(new DependenciesModule(this));
         new BootCompletedReceiver().onReceive(this, null);
     }
 }
