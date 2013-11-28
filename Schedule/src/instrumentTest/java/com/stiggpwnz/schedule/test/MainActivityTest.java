@@ -3,6 +3,7 @@ package com.stiggpwnz.schedule.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.stiggpwnz.schedule.R;
 import com.stiggpwnz.schedule.activities.MainActivity;
 
@@ -11,6 +12,8 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by adelnizamutdinov on 28/11/2013
