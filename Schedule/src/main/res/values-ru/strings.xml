@@ -50,6 +50,6 @@
 
     <string name="changelog_version_format">Версия <xliff:g id="version_name">%s</xliff:g></string>
     <string name="support_email_subject">Расписание КГУ для Android</string>
-
+    <string name="refresh">Обновить</string>
 
 </resources>

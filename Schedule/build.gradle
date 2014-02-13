@@ -21,6 +21,8 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:+'
     compile 'com.dmitriy-tarasov:android-intents:+'
 
+    compile files('libs/libGoogleAnalyticsServices.jar')
+
     instrumentTestCompile files('libs/espresso-1.0-SNAPSHOT.jar', 'libs/testrunner-1.0-SNAPSHOT.jar', 'libs/testrunner-runtime-1.0-SNAPSHOT.jar')
     instrumentTestCompile files('libs/hamcrest-core-1.1.jar', 'libs/hamcrest-library-1.1.jar', 'libs/hamcrest-integration-1.1.jar')
     instrumentTestCompile 'com.google.guava:guava:+'

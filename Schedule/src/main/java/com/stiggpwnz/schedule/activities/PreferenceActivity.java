@@ -12,6 +12,7 @@ import android.preference.Preference;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.dmitriy.tarasov.android.intents.IntentUtils;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.stiggpwnz.schedule.BootCompletedReceiver;
 import com.stiggpwnz.schedule.NotifierService;
 import com.stiggpwnz.schedule.Persistence;
@@ -115,6 +116,16 @@ public class PreferenceActivity extends SherlockPreferenceActivity implements Pr
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

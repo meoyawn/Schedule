@@ -3,6 +3,7 @@ package com.stiggpwnz.schedule.activities;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.stiggpwnz.schedule.MultiThreadedBus;
 import com.stiggpwnz.schedule.Persistence;
 import com.stiggpwnz.schedule.ScheduleApp;
@@ -17,7 +18,7 @@ import butterknife.Views;
 public abstract class BaseActivity extends SherlockFragmentActivity {
 
     @Inject protected MultiThreadedBus bus;
-    @Inject protected Persistence persistence;
+    @Inject protected Persistence      persistence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,16 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     public void setContentView(int layoutResId) {
         super.setContentView(layoutResId);
         Views.inject(this);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

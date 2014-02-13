@@ -153,8 +153,8 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
     }
 
     void setAdapter() {
-        if (listView.getHeaderViewsCount() == 0) {
-            listView.addHeaderView(createRefreshButton());
+        if (listView.getFooterViewsCount() == 0) {
+            listView.addFooterView(createRefreshButton());
         }
 
         ArrayAdapter<FileMetadata> adapter = new ArrayAdapter<FileMetadata>(getActivity(), android.R.layout.simple_list_item_1, fileMetadatas);

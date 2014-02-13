@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release
+        version="2.1.0"
+        versioncode="16">
+        <change>Added refresh feature</change>
+        <change>Added ITIS file</change>
+    </release>
     <release version="2.0.2" versioncode="15">
         <change>Added some colors</change>
         <change>Fixing crashes</change>
