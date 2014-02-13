@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 @Singleton
 public class Persistence {
 
-    private final Context context;
+    private final Context           context;
     private final SharedPreferences prefs;
 
     public Persistence(Context context, SharedPreferences prefs) {
@@ -85,5 +85,9 @@ public class Persistence {
 
     public boolean shouldNotify() {
         return prefs.getBoolean(context.getString(R.string.should_notify), true);
+    }
+
+    public void clear() {
+        prefs.edit().clear().commit();
     }
 }

@@ -16,7 +16,7 @@ dependencies {
     compile 'net.sf.opencsv:opencsv:+'
     compile 'com.koushikdutta.ion:ion:+'
     compile 'com.jakewharton.timber:timber:1.+'
-    compile 'com.netflix.rxjava:rxjava-android:0.11+'
+    compile 'com.netflix.rxjava:rxjava-android:0.11.+'
     compile 'joda-time:joda-time:+'
     compile 'com.j256.ormlite:ormlite-android:+'
     compile 'com.dmitriy-tarasov:android-intents:+'
@@ -28,13 +28,19 @@ dependencies {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19'
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 18
+        targetSdkVersion 19
 
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 

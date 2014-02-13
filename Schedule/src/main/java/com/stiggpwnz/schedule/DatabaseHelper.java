@@ -49,4 +49,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         }
     }
+
+    public void clear() throws SQLException {
+        for (Class clazz : CLASSES) {
+            TableUtils.clearTable(getConnectionSource(), clazz);
+        }
+    }
 }

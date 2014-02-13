@@ -1,15 +1,17 @@
 package com.stiggpwnz.schedule.fragments;
 
-import android.R;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.koushikdutta.ion.Ion;
 import com.stiggpwnz.schedule.FileMetadata;
+import com.stiggpwnz.schedule.R;
 import com.stiggpwnz.schedule.Utils;
 import com.stiggpwnz.schedule.fragments.base.RetainedProgressFragment;
 
@@ -31,7 +33,7 @@ import static com.stiggpwnz.schedule.fragments.MainFragment.DROPBOX;
  */
 public class FacultiesFragment extends RetainedProgressFragment implements AdapterView.OnItemClickListener {
 
-    ListView listView;
+    ListView       listView;
     FileMetadata[] fileMetadatas;
     private Subscription subscription;
 
@@ -110,6 +112,13 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
 
     }
 
+    @Override public void onDestroy() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
+        super.onDestroy();
+    }
+
     private Observable<FileMetadata[]> parseFile(final File file) {
         return Observable.create(new Func1<Observer<FileMetadata[]>, Subscription>() {
 
@@ -130,9 +139,65 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
         return new File(Utils.getFilesDir(getActivity()), "list.json");
     }
 
+    static void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory()) {
+            File[] files = fileOrDirectory.listFiles();
+            if (files != null) {
+                for (File child : files) {
+                    deleteRecursive(child);
+                }
+            }
+        }
+
+        fileOrDirectory.delete();
+    }
+
     void setAdapter() {
-        ArrayAdapter<FileMetadata> adapter = new ArrayAdapter<FileMetadata>(getActivity(), R.layout.simple_list_item_1, fileMetadatas);
+        if (listView.getHeaderViewsCount() == 0) {
+            listView.addHeaderView(createRefreshButton());
+        }
+
+        ArrayAdapter<FileMetadata> adapter = new ArrayAdapter<FileMetadata>(getActivity(), android.R.layout.simple_list_item_1, fileMetadatas);
         listView.setAdapter(adapter);
+    }
+
+    Button createRefreshButton() {
+        Button button = new Button(getActivity());
+        button.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+        button.setText(R.string.refresh);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Observable.create(new Func1<Observer<File>, Subscription>() {
+                    @Override public Subscription call(Observer<File> observer) {
+                        try {
+                            persistence.clear();
+                            databaseHelper.clear();
+
+                            File filesDir = Utils.getFilesDir(getActivity());
+                            deleteRecursive(filesDir);
+
+                            observer.onNext(filesDir);
+                            observer.onCompleted();
+                        } catch (Exception e) {
+                            observer.onError(e);
+                        }
+                        return Subscriptions.empty();
+                    }
+                })
+                        .subscribeOn(Schedulers.threadPoolForIO())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<File>() {
+                            @Override public void onCompleted() { }
+
+                            @Override public void onError(Throwable throwable) { }
+
+                            @Override public void onNext(File file) {
+                                onFirstCreated();
+                            }
+                        });
+            }
+        });
+        return button;
     }
 
     @Override

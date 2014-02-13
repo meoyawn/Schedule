@@ -61,6 +61,7 @@
     <string name="rate_the_app">Rate the app</string>
     <string name="close">Close</string>
     <string name="support_email_subject">KSU Schedule for Android</string>
+    <string name="refresh">Refresh</string>
 
 
 </resources>
