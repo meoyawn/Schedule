@@ -170,9 +170,6 @@ public class FacultiesFragment extends RetainedProgressFragment implements Adapt
                 Observable.create(new Func1<Observer<File>, Subscription>() {
                     @Override public Subscription call(Observer<File> observer) {
                         try {
-                            persistence.clear();
-                            databaseHelper.clear();
-
                             File filesDir = Utils.getFilesDir(getActivity());
                             deleteRecursive(filesDir);
 
