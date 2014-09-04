@@ -10,13 +10,13 @@
         <item>Sat</item>
     </string-array>
     <string-array name="times">
-        <item>8.30–9.50</item>
-        <item>10.00–11.20</item>
-        <item>11.30–12.50</item>
-        <item>13.05–14.25</item>
-        <item>14.40–16.00</item>
-        <item>16.10–17.30</item>
-        <item>17.40–19.00</item>
+        <item>8.30-10.00</item>
+        <item>10.10–11.40</item>
+        <item>11.50–13.20</item>
+        <item>13.35–15.05</item>
+        <item>15.20–16.50</item>
+        <item>17.00–18.30</item>
+        <item>18.40–20.10</item>
     </string-array>
 
     <string name="time_separator">–</string>
