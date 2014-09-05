@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
@@ -32,8 +33,8 @@ public class NotifierService extends IntentService {
         return new Intent(context, NotifierService.class).putExtra("lesson", i);
     }
 
-    @Inject Persistence persistence;
-    @Inject Timber timber;
+    @Inject Persistence    persistence;
+    @Inject Timber         timber;
     @Inject DatabaseHelper databaseHelper;
 
     public NotifierService() {
@@ -46,9 +47,14 @@ public class NotifierService extends IntentService {
         ScheduleApp.getObjectGraph().inject(this);
     }
 
+    public static boolean evenWeek(@NonNull DateTime dateTime) {
+        return dateTime.getWeekOfWeekyear() % 2 == 1;
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         timber.d("receiving intent");
 
         FileMetadata metadata = persistence.getLastFileMetadata();
@@ -64,7 +70,7 @@ public class NotifierService extends IntentService {
                         timber.d("triggered: getting groups");
                         List<Group> groups = getGroups(this, databaseHelper, metadata);
                         Group group = groups.get(lastSelectedGroup);
-                        boolean evenWeek = now.getWeekOfWeekyear() % 2 == 1;
+                        boolean evenWeek = evenWeek(now);
                         Lesson[][] lessons = parse(this, databaseHelper, metadata, group.column);
                         String current = lessons[day][lesson].get(evenWeek);
                         timber.d("got lesson: %s", current);
@@ -72,6 +78,11 @@ public class NotifierService extends IntentService {
                         if (!TextUtils.isEmpty(current.trim())) {
                             String[] times = getResources().getStringArray(R.array.times);
 
+                            PendingIntent activity = PendingIntent.getActivity(
+                                    this,
+                                    0,
+                                    new Intent(this, MainActivity.class),
+                                    0);
                             notificationManager.notify(ID, new NotificationCompat.Builder(this)
                                     .setAutoCancel(true)
                                     .setTicker(group.name + ' ' + times[lesson] + ' ' + current)
@@ -79,8 +90,9 @@ public class NotifierService extends IntentService {
                                     .setContentTitle(group.name)
                                     .setContentInfo(times[lesson])
                                     .setContentText(current)
-                                    .setStyle(new NotificationCompat.BigTextStyle().bigText(current).setSummaryText(""))
-                                    .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0))
+                                    .setStyle(new NotificationCompat.BigTextStyle().bigText(current)
+                                                      .setSummaryText(""))
+                                    .setContentIntent(activity)
                                     .setWhen(0)
                                     .build());
                             return;

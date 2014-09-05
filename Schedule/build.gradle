@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 dependencies {
     compile project(':PagerSlidingTabStrip')
@@ -7,34 +7,34 @@ dependencies {
     compile project(':colorpicker')
     compile project(':ChangeLogLibrary')
 
-    compile 'com.android.support:support-v4:+'
-    compile 'com.actionbarsherlock:actionbarsherlock:+@aar'
-    compile 'com.jakewharton:butterknife:3.+'
-    compile 'com.squareup:otto:+'
-    compile 'com.squareup.dagger:dagger-compiler:+'
-    compile 'com.squareup.dagger:dagger:+'
-    compile 'net.sf.opencsv:opencsv:+'
-    compile 'com.koushikdutta.ion:ion:+'
-    compile 'com.jakewharton.timber:timber:1.+'
-    compile 'com.netflix.rxjava:rxjava-android:0.11.+'
-    compile 'joda-time:joda-time:+'
-    compile 'com.j256.ormlite:ormlite-android:+'
-    compile 'com.dmitriy-tarasov:android-intents:+'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.jakewharton:butterknife:3.0.1'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    compile 'com.koushikdutta.ion:ion:1.3.8'
+    compile 'com.jakewharton.timber:timber:1.1.0'
+    compile 'com.netflix.rxjava:rxjava-android:0.11.3'
+    compile 'joda-time:joda-time:2.4'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.dmitriy-tarasov:android-intents:1.1.0'
 
     compile files('libs/libGoogleAnalyticsServices.jar')
 
-    instrumentTestCompile files('libs/espresso-1.0-SNAPSHOT.jar', 'libs/testrunner-1.0-SNAPSHOT.jar', 'libs/testrunner-runtime-1.0-SNAPSHOT.jar')
-    instrumentTestCompile files('libs/hamcrest-core-1.1.jar', 'libs/hamcrest-library-1.1.jar', 'libs/hamcrest-integration-1.1.jar')
-    instrumentTestCompile 'com.google.guava:guava:+'
+    androidTestCompile files('libs/espresso-1.0-SNAPSHOT.jar', 'libs/testrunner-1.0-SNAPSHOT.jar', 'libs/testrunner-runtime-1.0-SNAPSHOT.jar')
+    androidTestCompile files('libs/hamcrest-core-1.1.jar', 'libs/hamcrest-library-1.1.jar', 'libs/hamcrest-integration-1.1.jar')
+    androidTestCompile 'com.google.guava:guava:18.0'
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.0.1'
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 20
 
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }

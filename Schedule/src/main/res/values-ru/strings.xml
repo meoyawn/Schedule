@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="http://schemas.android.com/apk/res/com.stiggpwnz.schedule">
-
+<resources xmlns:xliff="http://schemas.android.com/apk/res/com.stiggpwnz.schedule"
+           xmlns:tools="http://schemas.android.com/tools">
     <string-array name="days">
         <item>ПН</item>
         <item>ВТ</item>
@@ -9,8 +9,6 @@
         <item>ПТ</item>
         <item>СБ</item>
     </string-array>
-
-
     <string name="app_name">Расписание</string>
     <string name="settings">Настройки</string>
     <string name="opened">Меню открыто</string>
@@ -41,15 +39,14 @@
     <string name="source_code">Исходный код</string>
     <string name="source_code_summary">Исходный код приложения на GitHub</string>
     <string name="rate_the_app">Оценить приложение</string>
-    <string name="changelog_header_version">"Версия "</string>
     <string name="close">Закрыть</string>
 
-    <string name="changelog_full_title">Список Изменений</string>
-    <string name="changelog_title">Что Нового</string>
-    <string name="changelog_show_full">Больше…</string>
+    <string name="changelog_header_version" tools:ignore="ExtraTranslation">"Версия "</string>
+    <string name="changelog_full_title" tools:ignore="ExtraTranslation">Список Изменений</string>
+    <string name="changelog_title" tools:ignore="ExtraTranslation">Что Нового</string>
+    <string name="changelog_show_full" tools:ignore="ExtraTranslation">Больше…</string>
+    <string name="changelog_version_format" tools:ignore="ExtraTranslation">Версия <xliff:g id="version_name">%s</xliff:g></string>
 
-    <string name="changelog_version_format">Версия <xliff:g id="version_name">%s</xliff:g></string>
     <string name="support_email_subject">Расписание КГУ для Android</string>
     <string name="refresh">Обновить</string>
-
 </resources>

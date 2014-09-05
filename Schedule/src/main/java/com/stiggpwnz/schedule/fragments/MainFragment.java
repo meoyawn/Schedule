@@ -22,6 +22,7 @@ import com.stiggpwnz.schedule.DatabaseHelper;
 import com.stiggpwnz.schedule.FileMetadata;
 import com.stiggpwnz.schedule.Group;
 import com.stiggpwnz.schedule.Lesson;
+import com.stiggpwnz.schedule.NotifierService;
 import com.stiggpwnz.schedule.R;
 import com.stiggpwnz.schedule.activities.PreferenceActivity;
 import com.stiggpwnz.schedule.adapters.DaysPagerAdapter;
@@ -58,9 +59,10 @@ import rx.util.functions.Func1;
 /**
  * Created by Adel Nizamutdinov on 31.08.13
  */
-public class MainFragment extends RetainedProgressFragment implements ActionBar.OnNavigationListener {
+public class MainFragment extends RetainedProgressFragment
+        implements ActionBar.OnNavigationListener {
 
-    public static final String DROPBOX = "https://dl.dropboxusercontent.com/u/32772116/schedule";
+    public static final String DROPBOX  = "https://dl.dropboxusercontent.com/u/32772116/schedule";
     public static final String METADATA = "metadata";
 
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("H.m");
@@ -77,7 +79,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         LocalTime previous = null;
         for (int i = 0; i < times.length; i++) {
             String[] timeSplit = times[i].split(separator);
-            LocalTime start = previous != null ? previous : TIME_FORMATTER.parseLocalTime(timeSplit[0]).minusMinutes(30);
+            LocalTime start = previous != null
+                    ? previous
+                    : TIME_FORMATTER.parseLocalTime(timeSplit[0]).minusMinutes(30);
             LocalTime end = TIME_FORMATTER.parseLocalTime(timeSplit[1]);
             if (new Interval(start.toDateTimeToday(), end.toDateTimeToday()).contains(now)) {
                 return i;
@@ -87,12 +91,12 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         return -1;
     }
 
-    @InjectView(R.id.tabs) PagerSlidingTabStrip tabs;
-    @InjectView(R.id.pager) ViewPager pager;
+    @InjectView(R.id.tabs)  PagerSlidingTabStrip tabs;
+    @InjectView(R.id.pager) ViewPager            pager;
 
-    Subscription groupListSubscription;
-    List<Group> groups;
-    MenuItem favouriteMenuItem;
+    Subscription  groupListSubscription;
+    List<Group>   groups;
+    MenuItem      favouriteMenuItem;
     GroupsAdapter groupsAdapter;
 
     final Observer<List<Group>> groupsListObserver = new Observer<List<Group>>() {
@@ -114,7 +118,8 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         @Override
         public void onNext(List<Group> strings) {
             MainFragment.this.groups = strings;
-            setUpNavigation(MainFragment.this.persistence.getLastSelectedGroup(MainFragment.this.getMetadata().path));
+            setUpNavigation(MainFragment.this.persistence.getLastSelectedGroup(MainFragment.this
+                                                                                       .getMetadata().path));
         }
     };
 
@@ -213,11 +218,15 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                 return true;
 
             case R.id.action_actionbar_color:
-                ColorPickerDialog colorPickerDialog = ColorPickerDialog.newInstance(R.string.actionbar_color,
-                        getResources().getIntArray(R.array.colors),
-                        persistence.getMainColor(), 4,
-                        isLarge() ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
-                colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                ColorPickerDialog colorPickerDialog =
+                        ColorPickerDialog.newInstance(R.string.actionbar_color,
+                                                      getResources().getIntArray(R.array.colors),
+                                                      persistence.getMainColor(), 4,
+                                                      isLarge()
+                                                              ? ColorPickerDialog.SIZE_LARGE
+                                                              : ColorPickerDialog.SIZE_SMALL);
+                colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch
+                        .OnColorSelectedListener() {
 
                     @Override
                     public void onColorSelected(int color) {
@@ -232,11 +241,15 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                 return true;
 
             case R.id.action_tabs_color:
-                ColorPickerDialog colorPickerDialogSecondary = ColorPickerDialog.newInstance(R.string.tab_color,
-                        getResources().getIntArray(R.array.colors),
-                        persistence.getSecondaryColor(), 4,
-                        isLarge() ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
-                colorPickerDialogSecondary.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                ColorPickerDialog colorPickerDialogSecondary =
+                        ColorPickerDialog.newInstance(R.string.tab_color,
+                                                      getResources().getIntArray(R.array.colors),
+                                                      persistence.getSecondaryColor(), 4,
+                                                      isLarge()
+                                                              ? ColorPickerDialog.SIZE_LARGE
+                                                              : ColorPickerDialog.SIZE_SMALL);
+                colorPickerDialogSecondary.setOnColorSelectedListener(new ColorPickerSwatch
+                        .OnColorSelectedListener() {
 
                     @Override
                     public void onColorSelected(int color) {
@@ -274,7 +287,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         View parent = (View) tabs.getParent();
         parent.setBackgroundColor(color);
         boolean light = isLight(color);
-        tabs.setTextColorResource(light ? android.R.color.primary_text_light : android.R.color.primary_text_dark);
+        tabs.setTextColorResource(light
+                                          ? android.R.color.primary_text_light
+                                          : android.R.color.primary_text_dark);
     }
 
     private ActionBar getSupportActionBar() {
@@ -292,7 +307,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             } else {
                 setContentShown(false);
                 groupsListObservable = Observable.from(Ion.with(getActivity(), metadata.getUrl())
-                        .write(file))
+                                                               .write(file))
                         .observeOn(Schedulers.immediate())
                         .flatMap(new Func1<File, Observable<List<Group>>>() {
 
@@ -316,7 +331,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
 
     private void setUpNavigation(int lastSelected) {
         if (groupsAdapter == null) {
-            groupsAdapter = new GroupsAdapter(getSupportActionBar().getThemedContext(), groups, isLight(persistence.getMainColor()));
+            groupsAdapter = new GroupsAdapter(getSupportActionBar().getThemedContext(),
+                                              groups,
+                                              isLight(persistence.getMainColor()));
         } else {
             groupsAdapter.setGroups(groups);
         }
@@ -360,7 +377,9 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         });
     }
 
-    public static List<Group> getGroups(Context context, DatabaseHelper databaseHelper, FileMetadata metadata) throws SQLException, IOException {
+    public static List<Group> getGroups(Context context,
+                                        DatabaseHelper databaseHelper,
+                                        FileMetadata metadata) throws SQLException, IOException {
         CSVReader reader = getCsvReader(metadata.getFile(context));
         reader.readNext();
         String[] nextLine = reader.readNext();
@@ -384,7 +403,10 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         return new CSVReader(new FileReader(file), ';');
     }
 
-    public static Lesson[][] parse(Context context, DatabaseHelper databaseHelper, FileMetadata metadata, int column) throws IOException, SQLException {
+    public static Lesson[][] parse(Context context,
+                                   DatabaseHelper databaseHelper,
+                                   FileMetadata metadata,
+                                   int column) throws IOException, SQLException {
         CSVReader reader = getCsvReader(metadata.getFile(context));
         String[] nextLine;
         for (int i = 0; i < 2; i++) {
@@ -400,7 +422,11 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
             if (!TextUtils.isEmpty(nextLine[0])) {
                 String value = nextLine[column];
                 if (firstLine) {
-                    String lessonId = String.format("%s:%d:%d:%d", metadata.getFileName(), column, day, lesson);
+                    String lessonId = String.format("%s:%d:%d:%d",
+                                                    metadata.getFileName(),
+                                                    column,
+                                                    day,
+                                                    lesson);
                     result[day][lesson] = new Lesson(lessonId);
                     databaseHelper.getDao(Lesson.class).refresh(result[day][lesson]);
                 }
@@ -442,7 +468,7 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         int actualDay = dateTime.getDayOfWeek() - 1;
         int hour = dateTime.getHourOfDay();
         int day = actualDay;
-        boolean evenWeek = dateTime.getWeekOfWeekyear() % 2 == 1;
+        boolean evenWeek = NotifierService.evenWeek(dateTime);
         if (day == 6) {
             day = 0;
         } else if (hour > 19) {
@@ -459,14 +485,20 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
         return true;
     }
 
-    private void loadLessons(final int i, final int actualDay, final int day, final boolean evenWeek) {
+    private void loadLessons(final int i,
+                             final int actualDay,
+                             final int day,
+                             final boolean evenWeek) {
         setContentShown(false);
         Observable.create(new Func1<Observer<Lesson[][]>, Subscription>() {
 
             @Override
             public Subscription call(Observer<Lesson[][]> observer) {
                 try {
-                    Lesson[][] lessons = parse(getActivity(), databaseHelper, getMetadata(), groups.get(i).column);
+                    Lesson[][] lessons = parse(getActivity(),
+                                               databaseHelper,
+                                               getMetadata(),
+                                               groups.get(i).column);
                     observer.onNext(lessons);
                     observer.onCompleted();
                 } catch (Exception e) {
@@ -496,7 +528,8 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                     @Override
                     public void onNext(Lesson[][] lessons) {
                         if (pager.getAdapter() == null) {
-                            pager.setAdapter(new DaysPagerAdapter(getChildFragmentManager(),
+                            pager.setAdapter(new DaysPagerAdapter(
+                                    getChildFragmentManager(),
                                     lessons,
                                     getResources().getStringArray(R.array.days),
                                     actualDay,
@@ -551,8 +584,12 @@ public class MainFragment extends RetainedProgressFragment implements ActionBar.
                     @Override
                     public void onNext(Group group) {
                         if (favouriteMenuItem != null) {
-                            favouriteMenuItem.setIcon(!group.isFavourite ? R.drawable.ic_action_unfavourite : R.drawable.ic_action_favourite);
-                            favouriteMenuItem.setTitle(group.isFavourite ? R.string.unfavourite : R.string.favourite);
+                            favouriteMenuItem.setIcon(!group.isFavourite
+                                                              ? R.drawable.ic_action_unfavourite
+                                                              : R.drawable.ic_action_favourite);
+                            favouriteMenuItem.setTitle(group.isFavourite
+                                                               ? R.string.unfavourite
+                                                               : R.string.favourite);
                         }
                     }
                 });

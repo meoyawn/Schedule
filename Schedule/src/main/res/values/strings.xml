@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="days">
         <item>Mon</item>
         <item>Tue</item>
@@ -9,8 +8,8 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-    <string-array name="times">
-        <item>8.30-10.00</item>
+    <string-array name="times" tools:ignore="MissingTranslation">
+        <item>8.30–10.00</item>
         <item>10.10–11.40</item>
         <item>11.50–13.20</item>
         <item>13.35–15.05</item>
@@ -19,14 +18,14 @@
         <item>18.40–20.10</item>
     </string-array>
 
-    <string name="time_separator">–</string>
-    <string name="even_week">ч/н</string>
-    <string name="odd_week">н/н</string>
-    <string name="should_notify">should notify</string>
-    <string name="rate_key">rate</string>
-    <string name="contact_key">contact</string>
-    <string name="changelog_key">changelog</string>
-    <string name="source_key">source</string>
+    <string name="time_separator" tools:ignore="MissingTranslation">–</string>
+    <string name="even_week" tools:ignore="MissingTranslation">ч/н</string>
+    <string name="odd_week" tools:ignore="MissingTranslation">н/н</string>
+    <string name="should_notify" tools:ignore="MissingTranslation">should notify</string>
+    <string name="rate_key" tools:ignore="MissingTranslation">rate</string>
+    <string name="contact_key" tools:ignore="MissingTranslation">contact</string>
+    <string name="changelog_key" tools:ignore="MissingTranslation">changelog</string>
+    <string name="source_key" tools:ignore="MissingTranslation">source</string>
 
 
     <string name="app_name">Schedule</string>
